@@ -20,7 +20,7 @@ public class User {
     }
 
     public User() {
-        
+
     }
 
     public long getId() {
