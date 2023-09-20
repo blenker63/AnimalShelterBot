@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
-public class NotificationTask {
+public class BotUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +15,7 @@ public class NotificationTask {
     private String messageText;
     private LocalDateTime localDateTime;
 
-    public NotificationTask() {
+    public BotUser() {
     }
 
     public Long getId() {

@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "shelter")
 public class Shelter {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "shelter_name")
     private String shelterName;
