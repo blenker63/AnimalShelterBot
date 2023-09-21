@@ -9,7 +9,7 @@ create table animal
     age         integer not null,
     breed       varchar not null
 );
-create table user
+create table "user"
 (
     id           serial primary key,
     "name"       varchar not null,
@@ -25,13 +25,34 @@ create table bot_user
 );
 create table information
 (
-    id   serial primary key,
+    id   int primary key,
     info text not null
 );
-create table user
+create table animal_owner
 (
     id           serial primary key,
     "name"       varchar not null,
     phone_number varchar not null,
-    e_mail       varchar not null
+    e_mail       varchar not null,
+    trial_period bool    not null
+);
+create table pet_report
+(
+    id       serial primary key,
+    diet     text not null,
+    feelings text not null,
+    "check"  bool not null
+);
+create table shelter
+(
+    id           serial primary key,
+    shelter_type varchar not null,
+    shelter_name varchar not null,
+    address      varchar not null
+);
+create table volunteer
+(
+    id           serial primary key,
+    "name"       varchar not null,
+    phone_number varchar not null
 );

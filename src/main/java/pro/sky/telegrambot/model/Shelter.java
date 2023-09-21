@@ -9,11 +9,14 @@ public class Shelter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "shelter_type")
+    private String shelterType;
     @Column(name = "shelter_name")
     private String shelterName;
     @Column(name = "address")
     private String address;
-    public Shelter(String shelterName, String address) {
+    public Shelter(String shelterType, String shelterName, String address) {
+        this.shelterType = shelterType;
         this.shelterName = shelterName;
         this.address = address;
     }
@@ -46,10 +49,19 @@ public class Shelter {
         this.address = address;
     }
 
+    public String getShelterType() {
+        return shelterType;
+    }
+
+    public void setShelterType(String shelterType) {
+        this.shelterType = shelterType;
+    }
+
     @Override
     public String toString() {
         return "Shelter{" +
                 "id=" + id +
+                ", shelterType='" + shelterType + '\'' +
                 ", shelterName='" + shelterName + '\'' +
                 ", address='" + address + '\'' +
                 '}';
