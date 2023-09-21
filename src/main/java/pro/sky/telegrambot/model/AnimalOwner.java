@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "animal_owner")
+public class AnimalOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -15,14 +15,17 @@ public class User {
     private String phoneNumber;
     @Column(name = "e_mail")
     private String eMail;
+    @Column(name = "trial_period")
+    private boolean trialPerion;
 
-    public User(String name, String phoneNumber, String eMail) {
+    public AnimalOwner(String name, String phoneNumber, String eMail, boolean trialPerion) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
+        this.trialPerion = trialPerion;
     }
 
-    public User() {
+    public AnimalOwner() {
 
     }
 
@@ -58,26 +61,35 @@ public class User {
         this.eMail = eMail;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", e_mail='" + eMail + '\'' +
-                '}';
+    public boolean isTrialPerion() {
+        return trialPerion;
+    }
+
+    public void setTrialPerion(boolean trialPerion) {
+        this.trialPerion = trialPerion;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return id == user.id;
+        if (!(o instanceof AnimalOwner)) return false;
+        AnimalOwner that = (AnimalOwner) o;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "AnimalOwner{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", e_mail='" + eMail + '\'' +
+                ", trialPerion=" + trialPerion +
+                '}';
     }
 }

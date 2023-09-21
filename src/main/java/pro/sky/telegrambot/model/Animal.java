@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "animal")
 public class Animal {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "animal_type")
     private String animalType;
@@ -15,11 +15,15 @@ public class Animal {
     private String name;
     @Column(name = "age")
     private int age;
+    @Column(name = "breed")
+    private String breed;
 
-    public Animal(String animalType, String name, int age) {
+    public Animal(String animalType, String name, int age, String breed) {
+
         this.animalType = animalType;
         this.name = name;
         this.age = age;
+        this.breed = breed;
     }
 
     public Animal() {
@@ -58,6 +62,14 @@ public class Animal {
         this.age = age;
     }
 
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
     @Override
     public String toString() {
         return "Animal{" +
@@ -65,6 +77,7 @@ public class Animal {
                 ", animalType='" + animalType + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", breed='" + breed + '\'' +
                 '}';
     }
 
