@@ -1,18 +1,19 @@
 package pro.sky.telegrambot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "bot_user")
 public class BotUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "chat_id")
     private Long chatId;
-    private String messageText;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
 
     public BotUser() {
@@ -34,12 +35,12 @@ public class BotUser {
         this.chatId = chatId;
     }
 
-    public String getMessageText() {
-        return messageText;
+    public String getName() {
+        return name;
     }
 
-    public void setMessageText(String messageText) {
-        this.messageText = messageText;
+    public void setName(String name) {
+        this.name = name;
     }
     public LocalDateTime getLocalDateTime() {
         return localDateTime;

@@ -13,10 +13,13 @@ public class User {
     private String name;
     @Column(name = "phone_number")
     private String phoneNumber;
+    @Column(name = "e_mail")
+    private String eMail;
 
-    public User(String name, String phoneNumber) {
+    public User(String name, String phoneNumber, String eMail) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.eMail = eMail;
     }
 
     public User() {
@@ -47,12 +50,21 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", e_mail='" + eMail + '\'' +
                 '}';
     }
 
