@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -17,11 +18,14 @@ public class PetReport {
 
     @Column(name = "check")
     private boolean check;
+    @Column(name = "date")
+    private LocalDateTime date;
 
-    public PetReport(String diet, String feelings, boolean check) {
+    public PetReport(String diet, String feelings, boolean check, LocalDateTime date) {
         this.diet = diet;
         this.feelings = feelings;
         this.check = check;
+        this.date = date;
     }
 
     public PetReport() {
@@ -58,6 +62,14 @@ public class PetReport {
 
     public void setCheck(boolean check) {
         this.check = check;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     @Override
