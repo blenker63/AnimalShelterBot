@@ -16,6 +16,12 @@ public class BotUser {
     @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
 
+    public BotUser(Long chatId, String name, LocalDateTime localDateTime) {
+        this.chatId = chatId;
+        this.name = name;
+        this.localDateTime = localDateTime;
+    }
+
     public BotUser() {
     }
 

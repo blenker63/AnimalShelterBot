@@ -40,7 +40,7 @@ public class UserController {
             tags = "Users"
     )
     @GetMapping("/all")
-    public Collection<User> getAllUsers() {
+    public Collection<User> getAllUser() {
         return (Collection<User>) userService;
     }
 
