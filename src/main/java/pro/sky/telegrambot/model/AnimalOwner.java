@@ -16,13 +16,13 @@ public class AnimalOwner {
     @Column(name = "e_mail")
     private String eMail;
     @Column(name = "trial_period")
-    private boolean trialPerion;
+    private boolean trialPeriod;
 
-    public AnimalOwner(String name, String phoneNumber, String eMail, boolean trialPerion) {
+    public AnimalOwner(String name, String phoneNumber, String eMail, boolean trialPeriod) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
-        this.trialPerion = trialPerion;
+        this.trialPeriod = trialPeriod;
     }
 
     public AnimalOwner() {
@@ -61,12 +61,12 @@ public class AnimalOwner {
         this.eMail = eMail;
     }
 
-    public boolean isTrialPerion() {
-        return trialPerion;
+    public boolean isTrialPeriod() {
+        return trialPeriod;
     }
 
-    public void setTrialPerion(boolean trialPerion) {
-        this.trialPerion = trialPerion;
+    public void setTrialPeriod(boolean trialPeriod) {
+        this.trialPeriod = trialPeriod;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class AnimalOwner {
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", e_mail='" + eMail + '\'' +
-                ", trialPerion=" + trialPerion +
+                ", trialPeriod=" + trialPeriod +
                 '}';
     }
 }
