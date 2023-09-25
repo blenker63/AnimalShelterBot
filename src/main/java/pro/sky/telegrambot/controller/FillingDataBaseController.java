@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.service.AddService;
 
+import java.time.LocalDateTime;
+
 @RequestMapping("/add")
 @RestController
 public class FillingDataBaseController {
@@ -34,9 +36,9 @@ public class FillingDataBaseController {
         addService.InformationSave(info);
     }
 
-    @PostMapping("/pet-report/{diet}/{feelings}/{check}")
-    public void PetReportSave(@PathVariable String diet, @PathVariable String feelings, @PathVariable boolean check){
-        addService.PetReportSave(diet, feelings, check);
+    @PostMapping("/pet-report/{diet}/{feelings}/{check}/{date}")
+    public void PetReportSave(@PathVariable String diet, @PathVariable String feelings, @PathVariable boolean check, @PathVariable LocalDateTime date){
+        addService.PetReportSave(diet, feelings, check, date);
     }
 
     @PostMapping("/shelter/{shelterType}/{shelterName}/{address}")

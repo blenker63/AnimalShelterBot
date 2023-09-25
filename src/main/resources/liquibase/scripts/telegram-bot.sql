@@ -12,7 +12,7 @@ create table animal
 create table "user"
 (
     id           serial primary key,
-    name       varchar not null,
+    name         varchar not null,
     phone_number varchar not null,
     e_mail       varchar not null
 );
@@ -55,4 +55,12 @@ create table volunteer
     id           serial primary key,
     "name"       varchar not null,
     phone_number varchar not null
+);
+create table photo
+(
+    id         serial primary key,
+    "data"     oid,
+    file_path  varchar,
+    file_size  bigint,
+    media_type varchar
 );

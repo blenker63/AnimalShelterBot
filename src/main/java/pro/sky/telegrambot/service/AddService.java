@@ -86,9 +86,10 @@ public class AddService {
      * @param diet  диета
      * @param feelings  состояние животного
      * @param check  проверялось ли благоустройство животного
+     * @param date  дато отчета
      */
-    public void PetReportSave(String diet, String feelings, boolean check){
-        PetReport petReport = new PetReport(diet, feelings, check);
+    public void PetReportSave(String diet, String feelings, boolean check, LocalDateTime date){
+        PetReport petReport = new PetReport(diet, feelings, check, date);
         petReportRepository.save(petReport);
     }
 
