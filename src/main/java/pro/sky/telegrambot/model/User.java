@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -9,17 +10,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "name")
     private String name;
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "e_mail")
-    private String eMail;
+    @Column(name = "chat_id")
+    private Long chatId;
+    @Column(name = "local_date_time")
+    private LocalDateTime localDateTime;
 
-    public User(String name, String phoneNumber, String eMail) {
+    public User(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.eMail = eMail;
+        this.chatId = chatId;
+        this.localDateTime = localDateTime;
     }
 
     public User() {
@@ -46,16 +51,16 @@ public class User {
         return phoneNumber;
     }
 
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String geteMail() {
-        return eMail;
-    }
-
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
     }
 
     @Override
@@ -64,7 +69,8 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", e_mail='" + eMail + '\'' +
+                ", chatId=" + chatId +
+                ", localDateTime=" + localDateTime +
                 '}';
     }
 

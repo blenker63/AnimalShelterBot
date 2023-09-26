@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class AddService {
     private final R_Animal animalRepository;
     private final R_AnimalOwner animalOwnerRepository;
-    private final R_BotUser botUserRepository;
     private final R_Information informationRepository;
     private final R_PetReport petReportRepository;
     private final R_Shelter shelterRepository;
@@ -19,7 +18,6 @@ public class AddService {
 
     public AddService(R_Animal animalRepository,
                       R_AnimalOwner animalOwnerRepository,
-                      R_BotUser botUserRepository,
                       R_Information informationRepository,
                       R_PetReport petReportRepository,
                       R_Shelter shelterRepository,
@@ -27,7 +25,6 @@ public class AddService {
                       R_Volunteer volunteerRepository) {
         this.animalRepository = animalRepository;
         this.animalOwnerRepository = animalOwnerRepository;
-        this.botUserRepository = botUserRepository;
         this.informationRepository = informationRepository;
         this.petReportRepository = petReportRepository;
         this.shelterRepository = shelterRepository;
@@ -99,13 +96,13 @@ public class AddService {
      * @param shelterName  названия приюта
      * @param address  адрес местонахождения приюта
      */
-    public void ShelterSave(String shelterType, String shelterName, String address){
-        Shelter shelter = new Shelter(shelterType, shelterName, address);
+    public void ShelterSave(String shelterType, String shelterName, String address, String information){
+        Shelter shelter = new Shelter(shelterType, shelterName, address, information);
         shelterRepository.save(shelter);
     }
 
-    public void UserSave(String name, String phoneNumber, String eMail){
-        User user = new User(name, phoneNumber, eMail);
+    public void UserSave(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime){
+        User user = new User(name, phoneNumber,chatId, localDateTime);
         userRepository.save(user);
     }
 
