@@ -15,10 +15,14 @@ public class Shelter {
     private String shelterName;
     @Column(name = "address")
     private String address;
-    public Shelter(String shelterType, String shelterName, String address) {
+    @Column(name = "information")
+    private String information;
+
+    public Shelter(String shelterType, String shelterName, String address, String infomation) {
         this.shelterType = shelterType;
         this.shelterName = shelterName;
         this.address = address;
+        this.information = information;
     }
 
     public Shelter() {
@@ -64,7 +68,16 @@ public class Shelter {
                 ", shelterType='" + shelterType + '\'' +
                 ", shelterName='" + shelterName + '\'' +
                 ", address='" + address + '\'' +
+                ", infomation='" + information + '\'' +
                 '}';
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
     }
 
     @Override
@@ -74,6 +87,7 @@ public class Shelter {
         Shelter shelter = (Shelter) o;
         return id == shelter.id;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
