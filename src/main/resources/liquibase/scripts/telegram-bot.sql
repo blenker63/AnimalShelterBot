@@ -12,7 +12,7 @@ create table animal
 create table "user"
 (
     id           serial primary key,
-    name       varchar not null,
+    name         varchar not null,
     phone_number varchar not null,
     e_mail       varchar not null
 );
@@ -56,3 +56,12 @@ create table volunteer
     "name"       varchar not null,
     phone_number varchar not null
 );
+-- changeset LeonidSysoev:2
+alter table shelter
+    add "information" text not null;
+-- changeset LeonidSysoev:3
+alter table "user"
+    add "chat_id"         integer   not null,
+    add "local_date_time" timestamp not null;
+-- changeset LeonidSysoev:4
+drop table bot_user;

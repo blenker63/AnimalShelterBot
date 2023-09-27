@@ -1,12 +1,12 @@
 package pro.sky.telegrambot.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.service.AddService;
+
+import java.time.LocalDateTime;
 
 @RequestMapping("/add")
 @RestController
@@ -39,14 +39,15 @@ public class FillingDataBaseController {
         addService.PetReportSave(diet, feelings, check);
     }
 
-    @PostMapping("/shelter/{shelterType}/{shelterName}/{address}")
-    public void ShelterSave(@PathVariable String shelterType, @PathVariable String shelterName, @PathVariable String address){
-        addService.ShelterSave(shelterType, shelterName, address);
+    @PostMapping("/shelter/{shelterType}/{shelterName}/{address}/{information}")
+    public void ShelterSave(@PathVariable String shelterType, @PathVariable String shelterName, @PathVariable String address, @PathVariable String information){
+        addService.ShelterSave(shelterType, shelterName, address, information);
     }
 
-    @PostMapping("/user/{name}/{phoneNumber}/{eMail}")
-    public void UserSave(@PathVariable String name, @PathVariable String phoneNumber, @PathVariable String eMail){
-        addService.UserSave(name, phoneNumber, eMail);
+    @PostMapping("/user/{name}/{phoneNumber}/{eMail}/{chatId}/{localDateTime}")
+    public void UserSave(@PathVariable String name, @PathVariable String phoneNumber,
+                         @PathVariable Long chatId, @PathVariable LocalDateTime localDateTime){
+        addService.UserSave(name, phoneNumber, chatId, localDateTime);
     }
 
     @PostMapping("/volunteer/{name}/{phoneNumber}")
