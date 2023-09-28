@@ -17,7 +17,7 @@ public class KeyboardService {
      * @param commandsList список стандартных команд класса Commands на основе которых формируется меню бота
      * @return объект - меню бота для user
      */
-    private Keyboard сreatingKeyboard(List<Commands> commandsList) {
+    private Keyboard creatingKeyboard(List<Commands> commandsList) {
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
         for (Commands command : commandsList) {
             InlineKeyboardButton inlineButton = new InlineKeyboardButton(command.getDescription());
@@ -33,6 +33,28 @@ public class KeyboardService {
      */
     public Keyboard shelterSelectionMenu() {
         List<Commands> commandsList = List.of(Commands.CAT_SHELTER, Commands.DOG_SHELTER);
-        return сreatingKeyboard(commandsList);
+        return creatingKeyboard(commandsList);
+    }
+    public Keyboard generateDogShelterMenu() {
+        List<Commands> commandList = List.of(
+//                Commands.ABOUT_DOG_SHELTER,
+                Commands.DOG_SHELTER_CONTACT_INFO,
+//                Commands.DOG_SHELTER_PASS_REG,
+                Commands.SHELTER_SAFETY_RECOMMENDATIONS,
+//                Commands.ADOPT_DOG,
+//                Commands.COMMUNICATION_REQUEST,
+                Commands.CALL_VOLUNTEER);
+        return creatingKeyboard(commandList);
+    }
+    public Keyboard generateCatShelterMenu() {
+        List<Commands> commandList = List.of(
+//                Commands.ABOUT_CAT_SHELTER,
+                Commands.CAT_SHELTER_CONTACT_INFO,
+//                Commands.CAT_SHELTER_PASS_REG,
+                Commands.SHELTER_SAFETY_RECOMMENDATIONS,
+//                Commands.ADOPT_CAT,
+//                Commands.COMMUNICATION_REQUEST,
+                Commands.CALL_VOLUNTEER);
+        return creatingKeyboard(commandList);
     }
 }
