@@ -1,0 +1,1 @@
+UPDATE public.animal SET shelter_id = 2 WHERE id = 2

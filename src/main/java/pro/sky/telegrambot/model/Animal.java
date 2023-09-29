@@ -18,6 +18,12 @@ public class Animal {
     @Column(name = "breed")
     private String breed;
 
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
     public Animal(String animalType, String name, int age, String breed) {
 
         this.animalType = animalType;

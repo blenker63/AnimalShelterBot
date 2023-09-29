@@ -32,6 +32,13 @@ public class AddService {
         this.volunteerRepository = volunteerRepository;
     }
 
+    public void anSet(long s_id, long id) {
+        animalRepository.AnimalSet(s_id,id);
+    }
+
+
+
+
     /**
      *  Сохраняет животных в БД Animal
      * @param animalType  тип животного кот/собака

@@ -21,7 +21,7 @@ public class FillingDataBaseController {
     }
 
     @PostMapping("/animal/{animalType}/{name}/{age}/{breed}")
-    public void AnimalSave(@PathVariable String animalType, @PathVariable String name, @PathVariable int age, @PathVariable String breed){
+    public void AnimalSave(@PathVariable String animalType, @PathVariable String name, @PathVariable int age, @PathVariable String breed ){
         addService.AnimalSave(animalType, name, age, breed);
     }
 
@@ -52,8 +52,8 @@ public class FillingDataBaseController {
         addService.UserSave(name, phoneNumber, chatId, localDateTime);
     }
 
-    @PostMapping("/volunteer/{name}/{phoneNumber}")
-    public void VolunteerSave(@PathVariable String name, @PathVariable String phoneNumber){
-        addService.VolunteerSave(name, phoneNumber);
+    @PostMapping("/{s_id}/{id}")
+    public void AS(@PathVariable long s_id, @PathVariable long id){
+        addService.anSet(s_id, id);
     }
 }

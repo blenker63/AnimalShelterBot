@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +19,10 @@ public class Shelter {
     @Column(name = "information")
     private String information;
 
-    public Shelter(String shelterType, String shelterName, String address, String infomation) {
+    @OneToMany(mappedBy = "shelter")
+    private Collection<Animal> animals;
+
+    public Shelter(String shelterType, String shelterName, String address, String information) {
         this.shelterType = shelterType;
         this.shelterName = shelterName;
         this.address = address;
