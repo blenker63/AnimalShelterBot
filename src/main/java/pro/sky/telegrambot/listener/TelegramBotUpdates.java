@@ -29,6 +29,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        // Если пришел текст
         if (update.hasMessage() && update.getMessage().hasText()) {
             String userName = update.getMessage().getChat().getFirstName();
             String message = update.getMessage().getText();
@@ -44,6 +45,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
         }
+        // Если пришло нажатие кнопки
         if (update.hasCallbackQuery()) {
             String call_data = update.getCallbackQuery().getData();
             String chat_id = String.valueOf(update.getCallbackQuery().getMessage().getChatId());
