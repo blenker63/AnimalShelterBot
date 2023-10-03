@@ -17,13 +17,13 @@ public class Animal {
     private int age;
     @Column(name = "breed")
     private String breed;
-
-
-
+    @Column(name = "pathToPhoto")
+    private String pathToPhoto;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
+
     public Animal(String animalType, String name, int age, String breed) {
 
         this.animalType = animalType;
@@ -74,6 +74,14 @@ public class Animal {
 
     public void setBreed(String breed) {
         this.breed = breed;
+    }
+
+    public String getPathToPhoto() {
+        return pathToPhoto;
+    }
+
+    public void setPathToPhoto(String pathToPhoto) {
+        this.pathToPhoto = pathToPhoto;
     }
 
     @Override

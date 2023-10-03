@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 
 @SpringBootApplication
-@EnableScheduling
 @OpenAPIDefinition
 public class TelegramBotApplication {
 

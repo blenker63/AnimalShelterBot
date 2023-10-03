@@ -65,3 +65,6 @@ alter table "user"
     add "local_date_time" timestamp not null;
 -- changeset LeonidSysoev:4
 drop table bot_user;
+-- changeset aDrot:1
+ALTER TABLE animal ADD COLUMN pathToPhoto text;
+
