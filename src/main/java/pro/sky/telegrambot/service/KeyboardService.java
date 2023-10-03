@@ -29,6 +29,7 @@ public class KeyboardService {
 
     /**
      * метод создает меню выбора приюта
+     *
      * @return объект - меню бота для user
      */
     public Keyboard shelterSelectionMenu() {

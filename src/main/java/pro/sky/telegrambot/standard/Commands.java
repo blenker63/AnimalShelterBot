@@ -24,7 +24,7 @@ public enum Commands {
     RECORD_DATA_FOR_COMMUNICATION("записать контактные данные для связи", "/record_data_for_communication"),
     RULES_GETTING_KNOW_ANIMALS("правила знакомства с животным", "/rules_getting_know_animals"),
     DOCUMENTS_TAKE_ANIMAL("документы чтобы взять животное", "documents_take_animal"),
-    TRANSPORTATION_RECOMMENDATION("рекомндации по транспортировке животного", "/transportation_recommendations"),
+    TRANSPORTATION_RECOMMENDATION("рекомендации по транспортировке животного", "/transportation_recommendations"),
     RECOMMENDATION_HOUSE_CUB("рекомендации по обустройству дома для щенка/котенка", "/recommendations_house_cub"),
     RECOMMENDATION_HOUSE_ADULT_ANIMAL("рекомендации по обустройству дома для взрослого животного", "/recommendations_house_adult_animal"),
     RECOMMENDATION_HOUSE_ANIMAL_WITH_DISABILITIES("рекомендации по обустройству дома для животного с ограниченными возможностями", "/recommendations_house_animal_with_disabilities"),
@@ -55,5 +55,14 @@ public enum Commands {
     Commands(String description, String command) {
         this.description = description;
         this.command = command;
+    }
+
+    public static Commands fromCommand(String command) {
+        for (Commands commands : Commands.values()) {
+            if (commands.getCommand().equals(command)) {
+                return commands;
+            }
+        }
+        return null;
     }
 }
