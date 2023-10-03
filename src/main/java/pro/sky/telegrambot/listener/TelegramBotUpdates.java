@@ -7,13 +7,16 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import pro.sky.telegrambot.model.Animal;
+import pro.sky.telegrambot.model.Photo;
 import pro.sky.telegrambot.service.ButtonService;
 import pro.sky.telegrambot.standard.Commands;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -71,11 +74,11 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             if (call_data.equals(Commands.CAT_SHELTER.getCommand())) {
                 List<Animal> cat = buttonService.countCat();
                 sendMessage(chatId, cat.get(0).getName());
-                //var photo = new com.pengrad.telegrambot.request.SendPhoto(chatId, "C:\\cat1.jpg");
-                //var photo = new SendPhoto(String.valueOf(chatId), new InputFile("C:\\cat1.jpg"));
+                Photo p = buttonService.findPhoto(1);
+                File f = new File(cat.get(0).getPathToPhoto());
                 var photo = new SendPhoto();
                 photo.setChatId(chatId);
-                photo.setPhoto(new InputFile( "C:\\cat1.jpg"));
+                photo.setPhoto(new InputFile(f));
                 try {
                     execute(photo);
                 } catch (TelegramApiException e) {
