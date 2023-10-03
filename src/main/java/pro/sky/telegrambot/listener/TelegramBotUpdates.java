@@ -73,14 +73,15 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
 
             if (call_data.equals(Commands.CAT_SHELTER.getCommand())) {
                 List<Animal> cat = buttonService.countCat();
-                sendMessage(chatId, cat.get(0).getName());
-                Photo p = buttonService.findPhoto(1);
+                //Photo p = buttonService.findPhoto(1);
+                //File f = new File("photos\\", "Cat1.jpg");
                 File f = new File(cat.get(0).getPathToPhoto());
                 var photo = new SendPhoto();
                 photo.setChatId(chatId);
                 photo.setPhoto(new InputFile(f));
                 try {
                     execute(photo);
+                    sendMessage(chatId, cat.get(0).getName());
                 } catch (TelegramApiException e) {
                     log.error("Сообщение не отправлено!");
                 }
