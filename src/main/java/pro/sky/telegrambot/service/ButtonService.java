@@ -79,6 +79,53 @@ public class ButtonService {
         return message;
     }
 
+    public SendMessage setButtonDogShelterInfo(long chatId, String text) {
+        SendMessage message = new SendMessage();
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        List<InlineKeyboardButton> rowInline1 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline3 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline4 = new ArrayList<>();
+
+        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
+        inlineKeyboardButton1.setText(Commands.DOG_SHELTER_CONTACT_INFO.getDescription());
+        inlineKeyboardButton1.setCallbackData(Commands.DOG_SHELTER_CONTACT_INFO.getCommand());
+
+        InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+        inlineKeyboardButton2.setText(Commands.DOG_SHELTER_DATA_SECURITY_PASS.getDescription());
+        inlineKeyboardButton2.setCallbackData(Commands.DOG_SHELTER_DATA_SECURITY_PASS.getCommand());
+
+        InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
+        inlineKeyboardButton3.setText(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getDescription());
+        inlineKeyboardButton3.setCallbackData(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getCommand());
+
+        InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
+        inlineKeyboardButton4.setText(Commands.DOCUMENTS_TAKE_ANIMAL.getDescription());
+        inlineKeyboardButton4.setCallbackData(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand());
+
+
+        rowInline1.add(inlineKeyboardButton1);
+        rowInline2.add(inlineKeyboardButton2);
+        rowInline3.add(inlineKeyboardButton3);
+        rowInline4.add(inlineKeyboardButton4);
+
+        message.setChatId(chatId);
+        message.setText(text);
+
+        rowsInline.add(rowInline1);
+        rowsInline.add(rowInline2);
+        rowsInline.add(rowInline3);
+        rowsInline.add(rowInline4);
+        markupInline.setKeyboard(rowsInline);
+        message.setReplyMarkup(markupInline);
+
+        return message;
+    }
+
+
     public List<Animal> countCat(){
         return animalRepository.findAnimalByAnimalTypeIgnoreCase("кот");
     }

@@ -62,7 +62,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             
             if (call_data.equals(Commands.DOG_SHELTER.getCommand())) {
                 try {
-                    execute(new SendMessage(chat_id, "Переход на песиков успешно"));
+                    execute(buttonService.setButtonDogShelterInfo(chatId, "Информация о приюте для собак, схема проезда и правила поведения на территории приюта."));
                 } catch (TelegramApiException e) {
                     log.error("Сообщение не отправлено!");
                 }
