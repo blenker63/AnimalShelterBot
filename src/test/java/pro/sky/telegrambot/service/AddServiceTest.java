@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pro.sky.telegrambot.model.Animal;
 import pro.sky.telegrambot.repository.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AddServiceTest {
@@ -15,10 +17,15 @@ class AddServiceTest {
     private R_Animal rAnimalMock;
     @Mock
     private R_AnimalOwner rAnimalOwnerMock;
+    @Mock
     private R_Information rInformationMock;
+    @Mock
     private R_PetReport rPetReportMock;
+    @Mock
     private R_Shelter rShelterMock;
+    @Mock
     private R_User rUserMock;
+    @Mock
     private R_Volunteer rVolunteerMock;
 
     private AddService service;
@@ -31,6 +38,10 @@ class AddServiceTest {
 
     @Test
     void animalSave() {
+        var animal = new Animal("cat", "will", 3, "maincoon");
+        when(rAnimalMock.save(animal)).thenReturn(animal);
+        assertEquals(animal, service.AnimalSave("cat", "will", 3, "maincoon"));
+        //verify(rAnimalMock, times(1));
     }
 
     @Test

@@ -46,9 +46,9 @@ public class AddService {
      * @param age  возраст животного
      * @param breed  порода
      */
-    public void AnimalSave(String animalType, String name, int age, String breed){
+    public Animal AnimalSave(String animalType, String name, int age, String breed){
         Animal animal = new Animal(animalType, name, age, breed);
-        animalRepository.save(animal);
+       return animalRepository.save(animal);
     }
 
     /**
@@ -58,9 +58,9 @@ public class AddService {
      * @param eMail  электронная почта
      * @param trialPeriod  испытательный срок
      */
-    public void AnimalOwnerSave(String name, String phoneNumber,  String eMail, boolean trialPeriod){
+    public AnimalOwner AnimalOwnerSave(String name, String phoneNumber,  String eMail, boolean trialPeriod){
         AnimalOwner animalOwner = new AnimalOwner(name, phoneNumber, eMail, trialPeriod);
-        animalOwnerRepository.save(animalOwner);
+       return animalOwnerRepository.save(animalOwner);
     }
 
 //    /**
@@ -79,10 +79,10 @@ public class AddService {
      *
      * @param info  информация
      */
-    public void InformationSave(String info){
+    public Information InformationSave(String info){
         Information information = new Information();
                     information.setInfo(info);
-        informationRepository.save(information);
+        return informationRepository.save(information);
     }
 
     /**
@@ -91,10 +91,10 @@ public class AddService {
      * @param feelings  состояние животного
      * @param check  проверялось ли благоустройство животного
      */
-    public void PetReportSave(String diet, String feelings, boolean check){
+    public PetReport PetReportSave(String diet, String feelings, boolean check){
         LocalDateTime localDateTime = LocalDateTime.now();
         PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
-        petReportRepository.save(petReport);
+        return petReportRepository.save(petReport);
     }
 
     /**
@@ -103,18 +103,18 @@ public class AddService {
      * @param shelterName  названия приюта
      * @param address  адрес местонахождения приюта
      */
-    public void ShelterSave(String shelterType, String shelterName, String address, String information){
+    public Shelter ShelterSave(String shelterType, String shelterName, String address, String information){
         Shelter shelter = new Shelter(shelterType, shelterName, address, information);
-        shelterRepository.save(shelter);
+       return shelterRepository.save(shelter);
     }
 
-    public void UserSave(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime){
+    public User UserSave(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime){
         User user = new User(name, phoneNumber,chatId, localDateTime);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
-    public void VolunteerSave(String name, String phoneNumber){
+    public Volunteer VolunteerSave(String name, String phoneNumber){
         Volunteer volunteer = new Volunteer(name, phoneNumber);
-        volunteerRepository.save(volunteer);
+        return volunteerRepository.save(volunteer);
     }
 }
