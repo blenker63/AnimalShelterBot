@@ -1,3 +1,0 @@
-dataBaseChangeLog:
-  - include:
-    file: liquibase/scripts/telegram-bot.sql

@@ -31,11 +31,6 @@ public class FillingDataBaseController {
 
     }
 
-    @PostMapping("/information/{info}")
-    public void InformationSave(@PathVariable String info){
-        addService.InformationSave(info);
-    }
-
     @PostMapping("/pet-report/{diet}/{feelings}/{check}")
     public void PetReportSave(@PathVariable String diet, @PathVariable String feelings, @PathVariable boolean check){
         addService.PetReportSave(diet, feelings, check);
@@ -46,11 +41,11 @@ public class FillingDataBaseController {
         addService.ShelterSave(shelterType, shelterName, address, information);
     }
 
-    @PostMapping("/user/{name}/{phoneNumber}/{eMail}/{chatId}/{localDateTime}")
-    public void UserSave(@PathVariable String name, @PathVariable String phoneNumber,
-                         @PathVariable Long chatId, @PathVariable LocalDateTime localDateTime){
-        addService.UserSave(name, phoneNumber, chatId, localDateTime);
-    }
+//    @PostMapping("/user/{name}/{phoneNumber}/{eMail}/{chatId}/{localDateTime}")
+//    public void UserSave(@PathVariable String name, @PathVariable String phoneNumber,
+//                         @PathVariable Long chatId, @PathVariable LocalDateTime localDateTime){
+//        addService.UserSave(name, phoneNumber, chatId, localDateTime);
+//    }
 
     @PostMapping("/{s_id}/{id}")
     public void AS(@PathVariable long s_id, @PathVariable long id){

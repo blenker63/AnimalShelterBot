@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class AddService {
     private final R_Animal animalRepository;
     private final R_AnimalOwner animalOwnerRepository;
-    private final R_Information informationRepository;
     private final R_PetReport petReportRepository;
     private final R_Shelter shelterRepository;
     private final R_User userRepository;
@@ -18,14 +17,12 @@ public class AddService {
 
     public AddService(R_Animal animalRepository,
                       R_AnimalOwner animalOwnerRepository,
-                      R_Information informationRepository,
                       R_PetReport petReportRepository,
                       R_Shelter shelterRepository,
                       R_User userRepository,
                       R_Volunteer volunteerRepository) {
         this.animalRepository = animalRepository;
         this.animalOwnerRepository = animalOwnerRepository;
-        this.informationRepository = informationRepository;
         this.petReportRepository = petReportRepository;
         this.shelterRepository = shelterRepository;
         this.userRepository = userRepository;
@@ -76,16 +73,6 @@ public class AddService {
 //    }
 
     /**
-     *
-     * @param info  информация
-     */
-    public Information InformationSave(String info){
-        Information information = new Information();
-                    information.setInfo(info);
-        return informationRepository.save(information);
-    }
-
-    /**
      *  Сохранение отчета о домашних животных
      * @param diet  диета
      * @param feelings  состояние животного
@@ -108,10 +95,10 @@ public class AddService {
        return shelterRepository.save(shelter);
     }
 
-    public User UserSave(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime){
-        User user = new User(name, phoneNumber,chatId, localDateTime);
-        return userRepository.save(user);
-    }
+//    public User UserSave(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime){
+//        User user = new User(name, phoneNumber,chatId, localDateTime);
+//        return userRepository.save(user);
+//    }
 
     public Volunteer VolunteerSave(String name, String phoneNumber){
         Volunteer volunteer = new Volunteer(name, phoneNumber);
