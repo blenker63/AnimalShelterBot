@@ -1,42 +1,35 @@
 package pro.sky.telegrambot.model;
 
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "name")
-    private String name;
-    @Column(name = "phone_number")
-    private String phoneNumber;
-    @Column(name = "chat_id")
     private Long chatId;
-    @Column(name = "local_date_time")
+    private String name;
     private LocalDateTime localDateTime;
+    private Long animalId;
 
-    public User(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
+    public User(Long chatId, String name, LocalDateTime localDateTime, Long animalId) {
         this.chatId = chatId;
+        this.name = name;
         this.localDateTime = localDateTime;
+        this.animalId = animalId;
     }
 
     public User() {
-
     }
 
-    public long getId() {
-        return id;
+    public Long getChatId() {
+        return chatId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
     }
 
     public String getName() {
@@ -47,43 +40,32 @@ public class User {
         this.name = name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public Long getChatId() {
-        return chatId;
-    }
-
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", chatId=" + chatId +
-                ", localDateTime=" + localDateTime +
-                '}';
+    public Long getAnimalId() {
+        return animalId;
+    }
+
+    public void setAnimalId(Long animalId) {
+        this.animalId = animalId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id;
+        return Objects.equals(chatId, user.chatId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(chatId);
     }
 }

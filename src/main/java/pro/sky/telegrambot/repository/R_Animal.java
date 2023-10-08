@@ -14,6 +14,8 @@ public interface R_Animal extends JpaRepository<Animal,Long> {
 
     List<Animal> findAnimalByAnimalTypeIgnoreCase(String type);
 
+    Animal findAnimalById(Long id);
+
 
 
 }

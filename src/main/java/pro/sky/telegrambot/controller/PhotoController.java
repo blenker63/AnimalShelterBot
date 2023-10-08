@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import pro.sky.telegrambot.model.Photo;
 import pro.sky.telegrambot.service.PhotoService;
 
-import jakarta.servlet.http.HttpServletResponse;
+
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

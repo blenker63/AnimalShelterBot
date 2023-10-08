@@ -1,23 +1,21 @@
 package pro.sky.telegrambot.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import pro.sky.telegrambot.repository.R_BotUser;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-@Table(name = "bot_user")
 public class BotUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "chat_id")
-    private Long chatId;
-    @Column(name = "name")
+    private Long userId;
     private String name;
-    @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
 
-    public BotUser(Long chatId, String name, LocalDateTime localDateTime) {
-        this.chatId = chatId;
+    public BotUser(Long userId, String name, LocalDateTime localDateTime) {
+        this.userId = userId;
         this.name = name;
         this.localDateTime = localDateTime;
     }
@@ -25,20 +23,12 @@ public class BotUser {
     public BotUser() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -48,11 +38,25 @@ public class BotUser {
     public void setName(String name) {
         this.name = name;
     }
+
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
 
     public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BotUser botUser = (BotUser) o;
+        return Objects.equals(userId, botUser.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
 }
