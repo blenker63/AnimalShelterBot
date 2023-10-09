@@ -8,6 +8,8 @@ import pro.sky.telegrambot.repository.R_User;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class UserService {
@@ -41,6 +43,21 @@ public class UserService {
         BotUser botUser =  botUserRepository.findBotUserByUserId(id);
         User user = new User(id, botUser.getName(), date, animalId);
         userRepository.save(user);
+    }
+
+    /************************************************************************
+     *  Сохраняет номер телефона пользователя, отправленного им в сообщении
+     * @param chatId пользователь
+     * @param message сообщение
+     ***********************************************************************/
+    public void savePhoneUser(long chatId, String message){
+        String telephone = null;
+        Pattern pattern = Pattern.compile("[0-9\\+]{12}+");
+        Matcher matcher = pattern.matcher(message);
+        while (matcher.find()) {
+            telephone = message.substring(matcher.start(), matcher.end());
+        }
+        userRepository.savePhone(chatId, telephone);
     }
 
     public BotUser findUserById(long id){

@@ -13,6 +13,7 @@ public class User {
     private String name;
     private LocalDateTime localDateTime;
     private Long animalId;
+    private String telephone;
 
     public User(Long chatId, String name, LocalDateTime localDateTime, Long animalId) {
         this.chatId = chatId;
@@ -54,6 +55,14 @@ public class User {
 
     public void setAnimalId(Long animalId) {
         this.animalId = animalId;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     @Override

@@ -78,7 +78,25 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                     }
                 }
             }
+
+            /**********************************************
+             *  если первый символ '+' проверяем если это номер
+             *  телефона - сохраняем
+             **********************************************/
+            if (message.startsWith("+")){
+                userService.savePhoneUser(id, message);
+                sendMessage(id, "Заявка принята!");
+            }
+
+            /**************************************************
+             *  если первый символ '#'- пересылаем сообщение
+             *****************************************************/
+            if (message.startsWith("#")){
+                sendMessage(6515082139L, message);
+            }
         }
+
+
 
         /****************************************************************************************
          **      Если пришло нажатие кнопки
@@ -278,11 +296,10 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
            String call = call_back.substring(2);
            long value = Long.valueOf(call);
            userService.saveUser(chatId, value);
-           sendMessage(chatId, " Заявка принята!");
+           sendMessage(chatId, "Напишите нам в сообщении свой номер телефона в формате: +7**********, что бы мы смогли с вами связаться.");
            log.info(" Заявка принята!");
         }
     }
-
 }
 
 
