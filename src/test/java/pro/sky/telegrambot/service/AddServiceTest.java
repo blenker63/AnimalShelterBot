@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pro.sky.telegrambot.model.Animal;
+import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.repository.*;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,13 +20,9 @@ class AddServiceTest {
     @Mock
     private R_AnimalOwner rAnimalOwnerMock;
     @Mock
-    private R_Information rInformationMock;
-    @Mock
     private R_PetReport rPetReportMock;
     @Mock
     private R_Shelter rShelterMock;
-    @Mock
-    private R_User rUserMock;
     @Mock
     private R_Volunteer rVolunteerMock;
 
@@ -32,8 +30,8 @@ class AddServiceTest {
 
     @BeforeEach
     void initService() {
-        service = new AddService(rAnimalMock, rAnimalOwnerMock, rInformationMock, rPetReportMock,
-                rShelterMock, rUserMock, rVolunteerMock);
+        service = new AddService(rAnimalMock, rAnimalOwnerMock, rPetReportMock,
+                rShelterMock, rVolunteerMock);
     }
 
     @Test
@@ -41,30 +39,36 @@ class AddServiceTest {
         var animal = new Animal("cat", "will", 3, "maincoon");
         when(rAnimalMock.save(animal)).thenReturn(animal);
         assertEquals(animal, service.AnimalSave("cat", "will", 3, "maincoon"));
-        //verify(rAnimalMock, times(1));
+        verify(rAnimalMock, times(1)).save(animal);
     }
 
     @Test
     void animalOwnerSave() {
+        var animalOwner = new AnimalOwner("leo", "88009007060", "mail@mail.ru", true);
+        when(rAnimalOwnerMock.save(animalOwner)).thenReturn(animalOwner);
+        assertEquals(animalOwner, service.AnimalOwnerSave("leo", "88009007060", "mail@mail.ru", true));
     }
 
-    @Test
-    void informationSave() {
-    }
 
     @Test
     void petReportSave() {
+        var petReport = new PetReport("diet", "feelings", true, LocalDateTime.now());
+        when(rPetReportMock.save(petReport)).thenReturn(petReport);
+        assertEquals(petReport, service.PetReportSave("diet", "feelings", true));
     }
 
     @Test
     void shelterSave() {
+        var shelter = new Shelter("catShelter", "Kitty", "Tula", "very good");
+        when(rShelterMock.save(shelter)).thenReturn(shelter);
+        assertEquals(shelter, service.ShelterSave("catShelter", "Kitty", "Tula", "very good"));
     }
 
-    @Test
-    void userSave() {
-    }
 
     @Test
     void volunteerSave() {
+        var volunteer = new Volunteer("nick", "88007007070");
+        when(rVolunteerMock.save(volunteer)).thenReturn(volunteer);
+        assertEquals(volunteer, service.VolunteerSave("nick", "88007007070"));
     }
 }
