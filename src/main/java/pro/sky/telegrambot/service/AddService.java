@@ -12,20 +12,19 @@ public class AddService {
     private final R_AnimalOwner animalOwnerRepository;
     private final R_PetReport petReportRepository;
     private final R_Shelter shelterRepository;
-    private final R_User userRepository;
+   // private final R_User userRepository;
     private final R_Volunteer volunteerRepository;
 
     public AddService(R_Animal animalRepository,
                       R_AnimalOwner animalOwnerRepository,
                       R_PetReport petReportRepository,
                       R_Shelter shelterRepository,
-                      R_User userRepository,
                       R_Volunteer volunteerRepository) {
         this.animalRepository = animalRepository;
         this.animalOwnerRepository = animalOwnerRepository;
         this.petReportRepository = petReportRepository;
         this.shelterRepository = shelterRepository;
-        this.userRepository = userRepository;
+        //this.userRepository = userRepository;
         this.volunteerRepository = volunteerRepository;
     }
 
