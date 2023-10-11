@@ -30,6 +30,8 @@ class ButtonServiceTest {
         service = new ButtonService(rPhoto, rAnimalMock, rShelterMock);
     }
 
+
+
     @Test
     void setButtonStartMenuTest() {
         Long chatId = 152152L;
@@ -41,6 +43,15 @@ class ButtonServiceTest {
 
     @Test
     void setButtonDogShelterInfo() {
+        Long chatId = 152152L;
+        String text = "test";
+        SendMessage test = service.setButtonDogShelterInfo(chatId, text);
+        SendMessage expected = new SendMessage();
+        expected.setChatId(152152L);
+        expected.setText("test");
+        assertThat(test).isNotNull().isInstanceOf(SendMessage.class);
+        assertThat(test.getChatId()).isEqualTo(expected.getChatId());
+        assertThat(test.getText()).isEqualTo(expected.getText());
     }
 
     @Test
