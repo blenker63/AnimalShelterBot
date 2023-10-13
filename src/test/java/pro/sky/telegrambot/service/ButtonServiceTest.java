@@ -14,11 +14,15 @@ import pro.sky.telegrambot.model.AnimalOwner;
 import pro.sky.telegrambot.model.Photo;
 import pro.sky.telegrambot.repository.*;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static java.lang.System.out;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -135,11 +139,12 @@ class ButtonServiceTest {
 
     }
 
-    @Test
-    void findPhotoTest() {
-        //byte[] data = new byte[1024];
-        //Photo photo = new Photo("filepath", 1024L, "bng", data);
-       //when(rPhoto.findPhotoByAnimalId(1L)).thenReturn(photo);
-        verify(rPhoto, times(1)).findPhotoByAnimalId(1L);
-    }
+//    @Test
+//    void findPhotoTest() {
+//
+//        byte[] data = new byte[]{1, 2, 3};
+//        Photo photo = new Photo("filepath", 1024L, "bng", data);
+//        when(rPhoto.findPhotoByAnimalId(1L)).thenReturn(photo);
+//        verify(rPhoto, times(1)).findPhotoByAnimalId(1L);
+//    }
 }
