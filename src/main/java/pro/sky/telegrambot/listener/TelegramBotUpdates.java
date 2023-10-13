@@ -102,13 +102,13 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
          **      Если пришло нажатие кнопки
          ****************************************************************************************/
         if (update.hasCallbackQuery()) {
-            String call_data = update.getCallbackQuery().getData();
-            String chat_id = String.valueOf(update.getCallbackQuery().getMessage().getChatId());
+            String callData = update.getCallbackQuery().getData();
+            String chatNumber  = String.valueOf(update.getCallbackQuery().getMessage().getChatId());
             long chatId = update.getCallbackQuery().getMessage().getChatId();
              /************************************************************************************
              **          Для приюта собак
              ************************************************************************************/
-            if (call_data.equals(Commands.DOG_SHELTER.getCommand())) {
+            if (callData.equals(Commands.DOG_SHELTER.getCommand())) {
                 try {
                     execute(buttonService.setButtonDogShelterInfo(chatId, "Информация о приюте для собак, схема проезда и правила поведения на территории приюта."));
                 } catch (TelegramApiException e) {
@@ -116,7 +116,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.DOG_SHELTER_CONTACT_INFO.getCommand())) {
+            if (callData.equals(Commands.DOG_SHELTER_CONTACT_INFO.getCommand())) {
                 try {
                     sendMessage(chatId, Information.DOG_SHELTER_ADDRESS.getDescription() + "\n " + Information.DOG_SHELTER_WORK_SCHEDULE.getDescription());
                 } catch (Exception e) {
@@ -124,7 +124,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.DOG_SHELTER_DATA_SECURITY_PASS.getCommand())) {
+            if (callData.equals(Commands.DOG_SHELTER_DATA_SECURITY_PASS.getCommand())) {
                 try {
                     sendMessage(chatId, Information.DOG_SHELTER_SECURITY_CONTACTS.getDescription());
                 } catch (Exception e) {
@@ -132,7 +132,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
+            if (callData.equals(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
                 try {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
                 } catch (Exception e) {
@@ -140,7 +140,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
+            if (callData.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
                 try {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
                 } catch (Exception e) {
@@ -150,7 +150,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             /*************************************************************
              *      Выводим в лист всех собак
              ************************************************************/
-            if (call_data.equals(Commands.SHELTER_DOG_ANIMAL.getCommand())) {
+            if (callData.equals(Commands.SHELTER_DOG_ANIMAL.getCommand())) {
                 List<Animal> dog = buttonService.countDog();
                 /*********************************************************************
                  * Выводим собак в чат и закрепляем за каждым фото кнопку
@@ -176,7 +176,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             /********************************************************************************************
              *      Для приюта кошек
              *******************************************************************************************/
-            if (call_data.equals(Commands.CAT_SHELTER.getCommand())) {
+            if (callData.equals(Commands.CAT_SHELTER.getCommand())) {
                 try {
                     execute(buttonService.setButtonCatShelterInfo(chatId, "Информация о приюте для кошек, схема проезда и правила поведения на территории приюта."));
                 } catch (TelegramApiException e) {
@@ -184,7 +184,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.CAT_SHELTER_CONTACT_INFO.getCommand())) {
+            if (callData.equals(Commands.CAT_SHELTER_CONTACT_INFO.getCommand())) {
                 try {
                     sendMessage(chatId, Information.CAT_SHELTER_ADDRESS.getDescription() + "\n " + Information.CAT_SHELTER_WORK_SCHEDULE.getDescription());
                 } catch (Exception e) {
@@ -192,7 +192,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.CAT_SHELTER_DATA_SECURITY_PASS.getCommand())) {
+            if (callData.equals(Commands.CAT_SHELTER_DATA_SECURITY_PASS.getCommand())) {
                 try {
                     sendMessage(chatId, Information.CAT_SHELTER_SECURITY_CONTACTS.getDescription());
                 } catch (Exception e) {
@@ -200,7 +200,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.CAT_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
+            if (callData.equals(Commands.CAT_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
                 try {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
                 } catch (Exception e) {
@@ -208,7 +208,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            if (call_data.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
+            if (callData.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
                 try {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
                 } catch (Exception e) {
@@ -218,7 +218,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             /*************************************************************
              *      Выводим в лист всех котов
              ************************************************************/
-            if (call_data.equals(Commands.SHELTER_CAT_ANIMAL.getCommand())) {
+            if (callData.equals(Commands.SHELTER_CAT_ANIMAL.getCommand())) {
                 List<Animal> cat = buttonService.countCat();
 
                 /*********************************************************************
@@ -239,8 +239,8 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
 
-            outInformForAnimal(chatId, call_data, false);
-            choiceAnimal(chatId, call_data);
+            outInformForAnimal(chatId, callData, false);
+            choiceAnimal(chatId, callData);
         }
     }
 
