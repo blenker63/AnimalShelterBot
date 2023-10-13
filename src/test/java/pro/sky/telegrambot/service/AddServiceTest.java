@@ -35,7 +35,7 @@ class AddServiceTest {
     }
 
     @Test
-    void animalSave() {
+    void animalSaveTest() {
         var animal = new Animal("cat", "will", 3, "maincoon");
         when(rAnimalMock.save(animal)).thenReturn(animal);
         assertEquals(animal, service.AnimalSave("cat", "will", 3, "maincoon"));
@@ -43,7 +43,7 @@ class AddServiceTest {
     }
 
     @Test
-    void animalOwnerSave() {
+    void animalOwnerSaveTest() {
         var animalOwner = new AnimalOwner("leo", "88009007060", "mail@mail.ru", true);
         when(rAnimalOwnerMock.save(animalOwner)).thenReturn(animalOwner);
         assertEquals(animalOwner, service.AnimalOwnerSave("leo", "88009007060", "mail@mail.ru", true));
@@ -51,14 +51,14 @@ class AddServiceTest {
 
 
     @Test
-    void petReportSave() {
+    void petReportSaveTest() {
         var petReport = new PetReport("diet", "feelings", true, LocalDateTime.now());
         when(rPetReportMock.save(petReport)).thenReturn(petReport);
         assertEquals(petReport, service.PetReportSave("diet", "feelings", true));
     }
 
     @Test
-    void shelterSave() {
+    void shelterSaveTest() {
         var shelter = new Shelter("catShelter", "Kitty", "Tula", "very good");
         when(rShelterMock.save(shelter)).thenReturn(shelter);
         assertEquals(shelter, service.ShelterSave("catShelter", "Kitty", "Tula", "very good"));
@@ -66,7 +66,7 @@ class AddServiceTest {
 
 
     @Test
-    void volunteerSave() {
+    void volunteerSaveTest() {
         var volunteer = new Volunteer("nick", "88007007070");
         when(rVolunteerMock.save(volunteer)).thenReturn(volunteer);
         assertEquals(volunteer, service.VolunteerSave("nick", "88007007070"));
