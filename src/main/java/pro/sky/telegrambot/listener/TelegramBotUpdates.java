@@ -50,32 +50,24 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
 
             if (message.equals(Commands.START.getCommand())) {
                 log.info(userName);
-                if (userService.findUserAndAnimal(id) == null) {  //проверяем подавал ли кто заявку на животное
-                    if (userService.findUserById(id) == null) {     // проверяем первый ли раз зашел ли пользователь
-                        userService.saveBotUser(id, userName);      // если нет то сохраняем его в БД
-                        try {
+                try {
+                    if (userService.findUserAndAnimal(id) == null) {  //проверяем подавал ли кто заявку на животное
+                        if (userService.findUserById(id) == null) {     // проверяем первый ли раз зашел ли пользователь
+                            userService.saveBotUser(id, userName);      // если нет то сохраняем его в БД
                             execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", я помогу тебе подобрать домашнего питомца." +
                                     " Предлагаю посмотреть информацию о приютах. "));
-                        } catch (TelegramApiException e) {
-                            log.error("Сообщение не отправлено!");
-                        }
-                    } else {          // если уже был приветствуем его
-                        try {
+                        } else {          // если уже был приветствуем его
                             execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", мы снова рады тебя приветствовать " +
                                     " в нашем телеграмм чате КотоПес! "));
-                        } catch (TelegramApiException e) {
-                            log.error("Сообщение не отправлено!");
                         }
-                    }
-                }else {  // если подавал заявку, напоминаем на какое животное //
-                    sendMessage(id, "Привет "+userName+", вы подавали заявку на:");
-                    User us = userService.findUserAndAnimal(id);
-                    outInformForAnimal(id, String.valueOf(us.getAnimalId()), true);
-                    try {
+                    } else {  // если подавал заявку, напоминаем на какое животное //
+                        sendMessage(id, "Привет " + userName + ", вы подавали заявку на:");
+                        User us = userService.findUserAndAnimal(id);
+                        outInformForAnimal(id, String.valueOf(us.getAnimalId()), true);
                         execute(buttonService.setButtonStartMenu(id, "   Продолжить   просмотр   "));
-                    } catch (TelegramApiException e) {
-                        log.error("Сообщение не отправлено!");
                     }
+                } catch (TelegramApiException e) {
+                    log.error("Сообщение не отправлено!");
                 }
             }
 
@@ -83,7 +75,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
              *  если первый символ '+' проверяем если это номер
              *  телефона - сохраняем
              **********************************************/
-            if (message.startsWith("+")){
+            if (message.startsWith("+")) {
                 userService.savePhoneUser(id, message);
                 sendMessage(id, "Заявка принята!");
             }
@@ -91,11 +83,10 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             /**************************************************
              *  если первый символ '#'- пересылаем сообщение
              *****************************************************/
-            if (message.startsWith("#")){
+            if (message.startsWith("#")) {
                 sendMessage(6515082139L, message);
             }
         }
-
 
 
         /****************************************************************************************
@@ -103,49 +94,33 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
          ****************************************************************************************/
         if (update.hasCallbackQuery()) {
             String callData = update.getCallbackQuery().getData();
-            String chatNumber  = String.valueOf(update.getCallbackQuery().getMessage().getChatId());
+            String chatNumber = String.valueOf(update.getCallbackQuery().getMessage().getChatId());
             long chatId = update.getCallbackQuery().getMessage().getChatId();
-             /************************************************************************************
+            /************************************************************************************
              **          Для приюта собак
              ************************************************************************************/
-            if (callData.equals(Commands.DOG_SHELTER.getCommand())) {
-                try {
+            try {
+                if (callData.equals(Commands.DOG_SHELTER.getCommand())) {
                     execute(buttonService.setButtonDogShelterInfo(chatId, "Информация о приюте для собак, схема проезда и правила поведения на территории приюта."));
-                } catch (TelegramApiException e) {
-                    log.error("Сообщение не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.DOG_SHELTER_CONTACT_INFO.getCommand())) {
-                try {
+                if (callData.equals(Commands.DOG_SHELTER_CONTACT_INFO.getCommand())) {
                     sendMessage(chatId, Information.DOG_SHELTER_ADDRESS.getDescription() + "\n " + Information.DOG_SHELTER_WORK_SCHEDULE.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.DOG_SHELTER_ADDRESS.getDescription() + " не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.DOG_SHELTER_DATA_SECURITY_PASS.getCommand())) {
-                try {
+                if (callData.equals(Commands.DOG_SHELTER_DATA_SECURITY_PASS.getCommand())) {
                     sendMessage(chatId, Information.DOG_SHELTER_SECURITY_CONTACTS.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.DOG_SHELTER_SECURITY_CONTACTS.getDescription() + " не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
-                try {
+                if (callData.equals(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.SHELTER_SAFETY_PRECAUTIONS.getCommand() + " не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
-                try {
+                if (callData.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.SHELTER_SAFETY_PRECAUTIONS.getCommand() + " не отправлено!");
                 }
+            } catch (Exception e) {
+                log.error("Сообщение " + chatId + "о приюте для собак не отправлено!");
             }
             /*************************************************************
              *      Выводим в лист всех собак
@@ -156,7 +131,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                  * Выводим собак в чат и закрепляем за каждым фото кнопку
                  * В планах сделать вывод постранично
                  ******************************************************************/
-                for (int i=0; i<dog.size(); i++) {
+                for (int i = 0; i < dog.size(); i++) {
                     File f = new File(dog.get(i).getPathToPhoto());
                     var photo = new SendPhoto();
                     photo.setChatId(chatId);
@@ -172,48 +147,31 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             }
 
 
-
             /********************************************************************************************
              *      Для приюта кошек
              *******************************************************************************************/
-            if (callData.equals(Commands.CAT_SHELTER.getCommand())) {
-                try {
+            try {
+                if (callData.equals(Commands.CAT_SHELTER.getCommand())) {
                     execute(buttonService.setButtonCatShelterInfo(chatId, "Информация о приюте для кошек, схема проезда и правила поведения на территории приюта."));
-                } catch (TelegramApiException e) {
-                    log.error("Сообщение не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.CAT_SHELTER_CONTACT_INFO.getCommand())) {
-                try {
+                if (callData.equals(Commands.CAT_SHELTER_CONTACT_INFO.getCommand())) {
                     sendMessage(chatId, Information.CAT_SHELTER_ADDRESS.getDescription() + "\n " + Information.CAT_SHELTER_WORK_SCHEDULE.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.CAT_SHELTER_ADDRESS.getDescription() + " не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.CAT_SHELTER_DATA_SECURITY_PASS.getCommand())) {
-                try {
+                if (callData.equals(Commands.CAT_SHELTER_DATA_SECURITY_PASS.getCommand())) {
                     sendMessage(chatId, Information.CAT_SHELTER_SECURITY_CONTACTS.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.DOG_SHELTER_SECURITY_CONTACTS.getDescription() + " не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.CAT_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
-                try {
+                if (callData.equals(Commands.CAT_SHELTER_SAFETY_RECOMMENDATIONS.getCommand())) {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.SHELTER_SAFETY_PRECAUTIONS.getCommand() + " не отправлено!");
                 }
-            }
 
-            if (callData.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
-                try {
+                if (callData.equals(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand())) {
                     sendMessage(chatId, Information.SHELTER_SAFETY_PRECAUTIONS.getDescription());
-                } catch (Exception e) {
-                    log.error("Сообщение " + chatId +" " +  Information.SHELTER_SAFETY_PRECAUTIONS.getCommand() + " не отправлено!");
                 }
+            } catch (Exception e) {
+                log.error("Сообщение " + chatId + " о приюте для кошек не отправлено!");
             }
             /*************************************************************
              *      Выводим в лист всех котов
@@ -225,7 +183,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                  * Выводим котов в чат и закрепляем за каждым фото кнопку
                  * В планах сделать вывод постранично
                  ******************************************************************/
-                for (int i=0; i<cat.size(); i++) {
+                for (int i = 0; i < cat.size(); i++) {
                     File f = new File(cat.get(i).getPathToPhoto());
                     var photo = new SendPhoto();
                     photo.setChatId(chatId);
@@ -260,29 +218,27 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
      * @param call_data принимаем кал-бек, если это цифры значит Id животного
      * @param flag либо поиск животного, либо напоминание о том что была подана заявка на этого животного
      ********************************************************************************/
-    public void outInformForAnimal(long chatId, String call_data, boolean flag){
-        if (call_data.matches("[0-9]")){
-            Long date = Long.valueOf(call_data);
-            Animal animal = buttonService.findCallBackByAnimal(date);
-            File f = new File(animal.getPathToPhoto());
-            var photo = new SendPhoto();
-            photo.setChatId(chatId);
-            photo.setPhoto(new InputFile(f));
-            if (flag){
-                try {
+    public void outInformForAnimal(long chatId, String call_data, boolean flag) {
+        try {
+            if (call_data.matches("[0-9]")) {
+                Long date = Long.valueOf(call_data);
+                Animal animal = buttonService.findCallBackByAnimal(date);
+                File f = new File(animal.getPathToPhoto());
+                var photo = new SendPhoto();
+                photo.setChatId(chatId);
+                photo.setPhoto(new InputFile(f));
+
+                if (flag) {
                     execute(photo);
-                    sendMessage(chatId, "Имя: "+animal.getName()+"\nВозраст: "+animal.getAge()+" месяц(а)\nПорода: "+animal.getBreed());
-                } catch (TelegramApiException e) {
-                    log.error("Сообщение не отправлено!");
-                }
-            }else {
-                try {
+                    sendMessage(chatId, "Имя: " + animal.getName() + "\nВозраст: " + animal.getAge() + " месяц(а)\nПорода: " + animal.getBreed());
+                } else {
                     execute(photo);
-                    execute(buttonService.choiceAnimal(chatId, String.valueOf(animal.getId()), "Имя: "+animal.getName()+"\nВозраст: "+animal.getAge()+" месяц(а)\nПорода: "+animal.getBreed()));
-                } catch (TelegramApiException e) {
-                    log.error("Сообщение не отправлено!");
+                    execute(buttonService.choiceAnimal(chatId, String.valueOf(animal.getId()), "Имя: " + animal.getName() + "\nВозраст: " + animal.getAge() + " месяц(а)\nПорода: " + animal.getBreed()));
                 }
+
             }
+        } catch (TelegramApiException e) {
+            log.error("outInformForAnimal не отработало!");
         }
     }
 
@@ -291,13 +247,13 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
      * @param chatId Id пользователя подавшего заявка
      * @param call_back принимаем кал-бек, если начинается с букв "ID", отсекаем их, за ними следует Id животного
      */
-    public void choiceAnimal(long chatId, String call_back){
-        if (call_back.startsWith("ID")){
-           String call = call_back.substring(2);
-           long value = Long.valueOf(call);
-           userService.saveUser(chatId, value);
-           sendMessage(chatId, "Напишите нам в сообщении свой номер телефона в формате: +7**********, что бы мы смогли с вами связаться.");
-           log.info(" Заявка принята!");
+    public void choiceAnimal(long chatId, String call_back) {
+        if (call_back.startsWith("ID")) {
+            String call = call_back.substring(2);
+            long value = Long.valueOf(call);
+            userService.saveUser(chatId, value);
+            sendMessage(chatId, "Напишите нам в сообщении свой номер телефона в формате: +7**********, что бы мы смогли с вами связаться.");
+            log.info(" Заявка принята!");
         }
     }
 }
