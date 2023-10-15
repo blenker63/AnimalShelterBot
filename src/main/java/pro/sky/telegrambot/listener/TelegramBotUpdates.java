@@ -196,6 +196,34 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                     }
                 }
             }
+            /**********************************************************
+             * Информация об условиях чтобы взять собаку
+             *********************************************************/
+            if (callData.equals("/information_for_adopting_an_dog")) {
+                sendMessage(chatId, Information.RULES_ACQUAINTANCE_ANIMAL.getDescription()+"\n"+
+                        Information.DOCUMENT_LIST.getDescription()+"\n"+
+                        Information.TRANSPORTATION_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.HOME_YOUNG_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.HOME_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.ANIMAL_WITH_DISABILITIES_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.COMMUNICATION_PRIMARY_ADVICE_DOG.getDescription()+"\n"+
+                        Information.CYNOLOGIST_LIST.getDescription()+"\n"+
+                        Information.REASONS_FOR_REFUSAL_LIST.getDescription()+"\n"+
+                        "Также вы можете написать нашим волонтерам поставив '#' в начале сообщения.");
+            }
+            /**********************************************************
+             * Информация об условиях чтобы взять кота
+             *********************************************************/
+            if (callData.equals("/information_for_adopting_an_cat")) {
+                sendMessage(chatId, Information.RULES_ACQUAINTANCE_ANIMAL.getDescription()+"\n"+
+                        Information.DOCUMENT_LIST.getDescription()+"\n"+
+                        Information.TRANSPORTATION_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.HOME_YOUNG_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.HOME_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.ANIMAL_WITH_DISABILITIES_RECOMMENDATIONS.getDescription()+"\n"+
+                        Information.REASONS_FOR_REFUSAL_LIST.getDescription()+"\n"+
+                        "Также вы можете написать нашим волонтерам поставив '#' в начале сообщения.");
+            }
 
             outInformForAnimal(chatId, callData, false);
             choiceAnimal(chatId, callData);
@@ -246,14 +274,20 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
      *  Принимаем заявку на животного и сохраняем пользователя и Id животного в БД "users"
      * @param chatId Id пользователя подавшего заявка
      * @param call_back принимаем кал-бек, если начинается с букв "ID", отсекаем их, за ними следует Id животного
-     */
+     **********************************************************************************/
     public void choiceAnimal(long chatId, String call_back) {
         if (call_back.startsWith("ID")) {
             String call = call_back.substring(2);
+            String animalType = buttonService.findAnimalTypeById(Long.valueOf(call));
             long value = Long.valueOf(call);
             userService.saveUser(chatId, value);
-            sendMessage(chatId, "Напишите нам в сообщении свой номер телефона в формате: +7**********, что бы мы смогли с вами связаться.");
             log.info(" Заявка принята!");
+            try {
+                execute(buttonService.informationForAdoptingAnAnimal(chatId, animalType, "Заявка принята!\nНапишите нам в сообщении свой номер телефона в формате: +7**********, что бы мы смогли с вами " +
+                        "связаться, а также ознакомтесь с тем, что нужно сделать прежде чем забрать питомца домой."));
+            } catch (TelegramApiException e) {
+                log.error("Сообщение не отправлено!");
+            }
         }
     }
 }

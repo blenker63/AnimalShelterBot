@@ -16,6 +16,9 @@ public interface R_Animal extends JpaRepository<Animal,Long> {
 
     Animal findAnimalById(Long id);
 
+    @Query(value = "SELECT animal_type FROM animal WHERE  id = :id", nativeQuery = true)
+    String findAnimalTypeById(Long id);
+
 
 
 }

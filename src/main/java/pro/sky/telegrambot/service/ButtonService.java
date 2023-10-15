@@ -103,9 +103,9 @@ public class ButtonService {
         inlineKeyboardButton3.setText(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getDescription());
         inlineKeyboardButton3.setCallbackData(Commands.DOG_SHELTER_SAFETY_RECOMMENDATIONS.getCommand());
 
-        InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
-        inlineKeyboardButton4.setText(Commands.DOCUMENTS_TAKE_ANIMAL.getDescription());
-        inlineKeyboardButton4.setCallbackData(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand());
+//        InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
+//        inlineKeyboardButton4.setText("Ознакомится с условиями");
+//        inlineKeyboardButton4.setCallbackData("/information_for_adopting_an_dog");
 
         InlineKeyboardButton inlineKeyboardButton5 = new InlineKeyboardButton();
         inlineKeyboardButton5.setText(Commands.SHELTER_DOG_ANIMAL.getDescription());
@@ -115,7 +115,7 @@ public class ButtonService {
         rowInline1.add(inlineKeyboardButton1);
         rowInline2.add(inlineKeyboardButton2);
         rowInline3.add(inlineKeyboardButton3);
-        rowInline4.add(inlineKeyboardButton4);
+//        rowInline4.add(inlineKeyboardButton4);
         rowInline5.add(inlineKeyboardButton5);
 
         message.setChatId(chatId);
@@ -156,9 +156,9 @@ public class ButtonService {
         inlineKeyboardButton3.setText(Commands.CAT_SHELTER_SAFETY_RECOMMENDATIONS.getDescription());
         inlineKeyboardButton3.setCallbackData(Commands.CAT_SHELTER_SAFETY_RECOMMENDATIONS.getCommand());
 
-        InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
-        inlineKeyboardButton4.setText(Commands.DOCUMENTS_TAKE_ANIMAL.getDescription());
-        inlineKeyboardButton4.setCallbackData(Commands.DOCUMENTS_TAKE_ANIMAL.getCommand());
+//        InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
+//        inlineKeyboardButton4.setText("Ознакомится с условиями");
+//        inlineKeyboardButton4.setCallbackData("/information_for_adopting_an_cat");
 
         InlineKeyboardButton inlineKeyboardButton5 = new InlineKeyboardButton();
         inlineKeyboardButton5.setText(Commands.SHELTER_CAT_ANIMAL.getDescription());
@@ -168,7 +168,7 @@ public class ButtonService {
         rowInline1.add(inlineKeyboardButton1);
         rowInline2.add(inlineKeyboardButton2);
         rowInline3.add(inlineKeyboardButton3);
-        rowInline4.add(inlineKeyboardButton4);
+//        rowInline4.add(inlineKeyboardButton4);
         rowInline5.add(inlineKeyboardButton5);
 
         message.setChatId(chatId);
@@ -209,6 +209,13 @@ public class ButtonService {
         return message;
     }
 
+    /************************************************************
+     * Кнопка обработки "Подать заявку"
+     * @param chatId пользователя
+     * @param animalId животного
+     * @param text текст
+     * @return сообщение
+     ************************************************************/
     public SendMessage choiceAnimal(long chatId, String animalId, String text) {
         SendMessage message = new SendMessage();
 
@@ -220,14 +227,39 @@ public class ButtonService {
         InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
         inlineKeyboardButton1.setText("Подать  заявку.");
         inlineKeyboardButton1.setCallbackData("ID"+animalId);
+        rowInline1.add(inlineKeyboardButton1);
+        message.setChatId(chatId);
+        message.setText("    "+text);
+        rowsInline.add(rowInline1);
+        markupInline.setKeyboard(rowsInline);
+        message.setReplyMarkup(markupInline);
+        return message;
+    }
 
+    /***********************************************************************
+     * Кнопка по обработке вывода информации по условиям для взятия животного
+     * @param chatId пользователя
+     * @param animalType тип животного для выбора возвращаемого калбека
+     * @param text текст
+     * @return сообщение
+     *********************************************************************/
+    public SendMessage informationForAdoptingAnAnimal(long chatId, String animalType, String text) {
+        SendMessage message = new SendMessage();
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        List<InlineKeyboardButton> rowInline1 = new ArrayList<>();
+        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
+        inlineKeyboardButton1.setText("Ознакомится с условиями");
+        if (animalType.equals("кот")){inlineKeyboardButton1.setCallbackData("/information_for_adopting_an_cat");}
+        if (animalType.equals("собака")){inlineKeyboardButton1.setCallbackData("/information_for_adopting_an_dog");}
         rowInline1.add(inlineKeyboardButton1);
 
         message.setChatId(chatId);
-        message.setText("    "+text);
+        message.setText(text);
 
         rowsInline.add(rowInline1);
-        //rowsInline.add(rowInline2);
         markupInline.setKeyboard(rowsInline);
         message.setReplyMarkup(markupInline);
         return message;
@@ -244,6 +276,10 @@ public class ButtonService {
 
     public Animal findCallBackByAnimal(Long date){
         return animalRepository.findAnimalById(date);
+    }
+
+    public String findAnimalTypeById(long id){
+        return animalRepository.findAnimalTypeById(id);
     }
 
     public Photo findPhoto(long id){
