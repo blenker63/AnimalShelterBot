@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 import java.util.Objects;
 
-@Entity
-@Table(name = "animal")
+@Entity(name = "animal")
+//@Table(name = "animal")
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
