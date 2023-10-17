@@ -45,7 +45,7 @@ address varchar(150),
 information varchar(350),
 );
 
-create table if not exists user(
+create table if not exists users(
 id bigserial primary key,
 name varchar(100),
 animalId bigserial,
