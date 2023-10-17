@@ -79,7 +79,7 @@ public class AddService {
      */
     public PetReport PetReportSave(String diet, String feelings, boolean check){
         LocalDateTime localDateTime = LocalDateTime.now();
-        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
+        PetReport petReport = new PetReport(diet, feelings, check, localDateTime, animalOwner);
         return petReportRepository.save(petReport);
     }
 
