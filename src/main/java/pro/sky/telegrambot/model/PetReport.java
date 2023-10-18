@@ -27,12 +27,11 @@ public class PetReport {
     @JoinColumn(name = "animalowner_id")
     private AnimalOwner animalOwner;
 
-    public PetReport(String diet, String feelings, boolean check, LocalDateTime date, AnimalOwner animalOwner) {
+    public PetReport(String diet, String feelings, boolean check, LocalDateTime date) {
         this.diet = diet;
         this.feelings = feelings;
         this.check = check;
         this.date = date;
-        this.animalOwner = animalOwner;
     }
 
     public PetReport() {
