@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ public class Photo {
     private long fileSize;
     private String mediaType;
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
 
 

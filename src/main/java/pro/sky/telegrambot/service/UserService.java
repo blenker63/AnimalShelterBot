@@ -27,10 +27,10 @@ public class UserService {
      * @param id  id пользователя
      * @param name имя пользователя
      ***************************************************************/
-    public void saveBotUser(long id, String name){
+    public BotUser saveBotUser(long id, String name){
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         BotUser user = new BotUser(id, name, date);
-        botUserRepository.save(user);
+        return botUserRepository.save(user);
     }
 
     /*********************************************************************
@@ -38,11 +38,11 @@ public class UserService {
      * @param id id пользователя
      * @param animalId id животного
      *********************************************************************/
-    public void saveUser(long id, long animalId){
+    public User saveUser(long id, long animalId){
         LocalDateTime date = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         BotUser botUser =  botUserRepository.findBotUserByUserId(id);
         User user = new User(id, botUser.getName(), date, animalId);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     /************************************************************************

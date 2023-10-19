@@ -15,17 +15,24 @@ public class PetReport {
     private String diet;
     @Column(name = "feelings")
     private String feelings;
+    @Column(name = "behaviour")
+    private String behaviour;
 
     @Column(name = "check")
     private boolean check;
+
     @Column(name = "date")
     private LocalDateTime date;
+    @OneToOne
+    @JoinColumn(name = "animalowner_id")
+    private AnimalOwner animalOwner;
 
-    public PetReport(String diet, String feelings, boolean check, LocalDateTime date) {
+    public PetReport(String diet, String feelings, boolean check, LocalDateTime date, AnimalOwner animalOwner) {
         this.diet = diet;
         this.feelings = feelings;
         this.check = check;
         this.date = date;
+//        this.animalOwner = animalOwner;
     }
 
     public PetReport() {
@@ -72,6 +79,22 @@ public class PetReport {
         this.date = date;
     }
 
+    public String getBehaviour() {
+        return behaviour;
+    }
+
+    public void setBehaviour(String behaviour) {
+        this.behaviour = behaviour;
+    }
+
+    public AnimalOwner getAnimalOwner() {
+        return animalOwner;
+    }
+
+    public void setAnimalOwner(AnimalOwner animalOwner) {
+        this.animalOwner = animalOwner;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,7 +114,10 @@ public class PetReport {
                 "id=" + id +
                 ", diet='" + diet + '\'' +
                 ", feelings='" + feelings + '\'' +
+                ", behaviour='" + behaviour + '\'' +
                 ", check=" + check +
+                ", date=" + date +
+                ", animalOwner=" + animalOwner +
                 '}';
     }
 }
