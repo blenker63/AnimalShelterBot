@@ -62,7 +62,7 @@ public class PhotoService {
     }
 
     public Photo findPhoto(long animalId){
-        log.info( "findAvatar = OK!");
+//        log.info( "findAvatar = OK!");
         return rPhoto.findPhotoByAnimalId(animalId);
     }
 

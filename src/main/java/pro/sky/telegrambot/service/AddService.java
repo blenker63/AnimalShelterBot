@@ -27,6 +27,10 @@ public class AddService {
         //this.userRepository = userRepository;
         this.volunteerRepository = volunteerRepository;
     }
+//    private AnimalOwner animalOwner;
+//      public AddService(AnimalOwner animalOwner) {
+//        this.animalOwner = animalOwner;
+//      }
 
     public void anSet(long s_id, long id) {
         animalRepository.AnimalSet(s_id,id);
@@ -79,7 +83,7 @@ public class AddService {
      */
     public PetReport PetReportSave(String diet, String feelings, boolean check){
         LocalDateTime localDateTime = LocalDateTime.now();
-        PetReport petReport = new PetReport(diet, feelings, check, localDateTime, animalOwner);
+        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
         return petReportRepository.save(petReport);
     }
 
