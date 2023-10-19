@@ -6,6 +6,7 @@ import pro.sky.telegrambot.model.Photo;
 public interface R_Photo extends PagingAndSortingRepository<Photo,Long> {
 
     Photo findPhotoByAnimalId(Long Id);
+//    Photo findByPhotoId(Long Id);
 
     Photo save(Photo photo);
 

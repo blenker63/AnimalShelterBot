@@ -17,8 +17,8 @@ public class AnimalOwner {
     private String eMail;
     @Column(name = "trial_period")
     private boolean trialPeriod;
-    @OneToOne(mappedBy = "animalowner")
-    private PetReport petReport;
+//    @OneToOne(mappedBy = "animaOwner")
+//    private PetReport petReport;
 
 
     public AnimalOwner(String name, String phoneNumber, String eMail, boolean trialPeriod) {
