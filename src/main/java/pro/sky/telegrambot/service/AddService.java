@@ -77,11 +77,11 @@ public class AddService {
      * @param feelings  состояние животного
      * @param check  проверялось ли благоустройство животного
      */
-    public PetReport PetReportSave(String diet, String feelings, boolean check){
-        LocalDateTime localDateTime = LocalDateTime.now();
-        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
-        return petReportRepository.save(petReport);
-    }
+//    public PetReport PetReportSave(String diet, String feelings, boolean check){
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
+//        return petReportRepository.save(petReport);
+//    }
 
     /**
      *  Метод для сохранения данных о приюте

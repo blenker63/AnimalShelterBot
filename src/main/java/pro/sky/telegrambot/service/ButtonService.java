@@ -265,6 +265,27 @@ public class ButtonService {
         return message;
     }
 
+    public SendMessage sendReport(long chatId, String text){
+        SendMessage message = new SendMessage();
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        List<InlineKeyboardButton> rowInline1 = new ArrayList<>();
+        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
+        inlineKeyboardButton1.setText("Отправить отчет.");
+        inlineKeyboardButton1.setCallbackData("/send_report");
+        rowInline1.add(inlineKeyboardButton1);
+
+        message.setChatId(chatId);
+        message.setText(text);
+
+        rowsInline.add(rowInline1);
+        markupInline.setKeyboard(rowsInline);
+        message.setReplyMarkup(markupInline);
+        return message;
+    }
+
 
     public List<Animal> countCat(){
         return animalRepository.findAnimalByAnimalTypeIgnoreCase("кот");

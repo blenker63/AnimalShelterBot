@@ -1,11 +1,10 @@
 package pro.sky.telegrambot.service;
 
 import org.springframework.stereotype.Component;
-import pro.sky.telegrambot.model.BotUser;
-import pro.sky.telegrambot.model.User;
-import pro.sky.telegrambot.repository.R_BotUser;
-import pro.sky.telegrambot.repository.R_User;
+import pro.sky.telegrambot.model.*;
+import pro.sky.telegrambot.repository.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Matcher;
@@ -16,10 +15,17 @@ public class UserService {
 
     private final R_BotUser botUserRepository;
     private final R_User userRepository;
+    private final R_AnimalOwner animalOwnerRepository;
+    private final R_PetReport petReportRepository;
 
-    public UserService(R_BotUser botUserRepository, R_User userRepository) {
+    private final R_PhotoReport photoReportRepository;
+
+    public UserService(R_BotUser botUserRepository, R_User userRepository, R_AnimalOwner animalOwnerRepositiry, R_PetReport petReportRepository, R_PhotoReport photoReportRepository) {
         this.botUserRepository = botUserRepository;
         this.userRepository = userRepository;
+        this.animalOwnerRepository = animalOwnerRepositiry;
+        this.petReportRepository = petReportRepository;
+        this.photoReportRepository = photoReportRepository;
     }
 
     /***************************************************************
@@ -69,4 +75,35 @@ public class UserService {
         User user = userRepository.findUserByChatId(id);
         return user;
     }
+
+    public AnimalOwner findAnimalOwnerById(long chatId){
+        AnimalOwner animalOwner = animalOwnerRepository.findAnimalOwnerById(chatId);
+        return animalOwner;
+    }
+
+    public PetReport findPetReportByOwnerIdAndDate(long ownerId, LocalDate date){
+        PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(ownerId, date);
+        return petReport;
+    }
+
+    public void saveDietReport(long id, String diet){
+        PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(id, LocalDate.now());
+        petReportRepository.saveDiet(petReport.getId(), diet);
+    }
+
+    public void saveFeelingsReport(long id, String feelings){
+        PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(id, LocalDate.now());
+        petReportRepository.saveFeelings(petReport.getId(), feelings);
+    }
+
+    public PetReport addPetReport(PetReport petReport){
+        petReportRepository.save(petReport);
+        return petReport;
+    }
+
+    public PhotoReport addPhotoReport(PhotoReport photoReport){
+        photoReportRepository.save(photoReport);
+        return photoReport;
+    }
+
 }
