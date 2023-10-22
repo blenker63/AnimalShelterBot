@@ -13,6 +13,7 @@ import pro.sky.telegrambot.listener.TelegramBotUpdates;
 @Configuration
 public class TelegramBotConfiguration {
 
+
     @Bean
     public TelegramBotsApi telegramBotsApi(TelegramBotUpdates telegramBotUpdates) throws TelegramApiException {
         var api = new TelegramBotsApi(DefaultBotSession.class);

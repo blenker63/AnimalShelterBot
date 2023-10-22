@@ -3,6 +3,7 @@ package pro.sky.telegrambot.listener;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
@@ -12,24 +13,24 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import pro.sky.telegrambot.model.Animal;
-import pro.sky.telegrambot.model.PetReport;
-import pro.sky.telegrambot.model.PhotoReport;
-import pro.sky.telegrambot.model.User;
+import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.service.ButtonService;
 import pro.sky.telegrambot.service.UserService;
 import pro.sky.telegrambot.standard.Commands;
 import pro.sky.telegrambot.standard.Information;
 
 import java.io.File;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
 @Component
 @Slf4j
+
 public class TelegramBotUpdates extends TelegramLongPollingBot {
 
 //    @Autowired
@@ -80,7 +81,9 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
 
                         }
                     } else {
-                        execute(buttonService.sendReport(id, "Пожалуйста, отправьте ежедневный отчет в приют!"));
+                        execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", желаешь еще посмотреть питомцев " +
+                                " в нашем телеграмм чате КотоПес! "));
+                        execute(buttonService.sendReport(id, "Незабываем отправлять ежедневный отчет!"));
                     }
                 } catch (TelegramApiException e) {
                     log.error("Сообщение не отправлено!");
@@ -295,6 +298,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
              * он создается в БД
              *********************************************************/
             if (callData.equals("/send_report")) {
+                checkingReports();
                 sendMessage(chatId, "Для отчета отправьте фото животного, а также два сообщения:\n" +
                         "1. в первом сообщении сначала напишите 'Питание:' и опишите питание за сегодняшний деть.\n" +
                         "2. во втором сообщении сначала напишите 'Поведение:' и опишите как ведет себя питомец " +
@@ -363,6 +367,42 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                         "связаться, а также ознакомтесь с тем, что нужно сделать прежде чем забрать питомца домой."));
             } catch (TelegramApiException e) {
                 log.error("Сообщение не отправлено!");
+            }
+        }
+    }
+
+    /************************************************************
+     * Проверка отчетов каждый день в 21:00
+     ***********************************************************/
+    @Scheduled(cron = "* * 21 * * *")
+    public void checkingReports(){
+        LocalDate dateNow = LocalDate.now();
+        List<AnimalOwner> animalOwners = userService.allAnimalOwner();                                                          // список всех владельцев
+        for (AnimalOwner animalOwner : animalOwners){
+            if (userService.findPetReportByOwnerIdAndDate(animalOwner.getId(), dateNow) == null){                               // если сегодня отчетов не было
+                try {                                                                                                           // напоминаем владельцу
+                    execute(buttonService.sendReport(animalOwner.getId(), Information.BOT_OWNER_MESSAGE.getDescription()));
+                }catch (TelegramApiException e) {
+                    log.error("Сообщение не отправлено!");
+                }
+            }
+            if (userService.checkingLastDateReports(animalOwner.getId()) == null){                                              // если владелец еще не оставлял отчетов
+                Period period = animalOwner.getDate().until(dateNow);                                                            // проверяем как давно он взял питомца
+                if (period.getDays() >= 2){                                                                                     // если больше двух дней назад
+                    //sendMessage(Id-volunteer, Information.BOT_VOLUNTEER_MESSAGE.getDescription()+animalOwner.toString());     // отправляем предупреждение волонтеру
+                    log.info("Отчетов не было больше 2-х дней" + animalOwner.toString());
+                }
+            }else {
+                PetReport petReport = userService.checkingLastDateReports(animalOwner.getId());                                 // если отчет есть, забираем по последней дате добавления
+                LocalDate reportDate = petReport.getDate();                                                                     // извлекаем дату
+                if (!(petReport.getDate().equals(dateNow))){                                                                    // сверяем с текущей датой, ни сегодня ли прислан отчет
+                    Period period = reportDate.until(dateNow);                                                                  // если нет проверяем как давно
+                    log.info(String.valueOf(period.getDays()));
+                    if (period.getDays() >=2 ){                                                                                 // если два или более дня назад
+                        //sendMessage(Id-volunteer, Information.BOT_VOLUNTEER_MESSAGE.getDescription()+animalOwner.toString()); // предупреждаем волонтера
+                        log.info("Отчетов не было больше 2-х дней");
+                    }
+                }
             }
         }
     }

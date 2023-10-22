@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.repository.*;
@@ -7,10 +8,12 @@ import pro.sky.telegrambot.repository.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
+@Slf4j
 public class UserService {
 
     private final R_BotUser botUserRepository;
@@ -66,6 +69,11 @@ public class UserService {
         userRepository.savePhone(chatId, telephone);
     }
 
+    public List<AnimalOwner> allAnimalOwner(){
+        List<AnimalOwner> animalOwners = animalOwnerRepository.findAll();
+        return animalOwners;
+    }
+
     public BotUser findUserById(long id){
         BotUser botUser = botUserRepository.findBotUserByUserId(id);
         return botUser;
@@ -104,6 +112,10 @@ public class UserService {
     public PhotoReport addPhotoReport(PhotoReport photoReport){
         photoReportRepository.save(photoReport);
         return photoReport;
+    }
+
+    public PetReport checkingLastDateReports(long animalOwner_id){
+        return petReportRepository.checkingLastDateReports(animalOwner_id);
     }
 
 }
