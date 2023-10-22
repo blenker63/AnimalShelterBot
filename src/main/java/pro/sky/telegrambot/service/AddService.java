@@ -28,6 +28,10 @@ public class AddService {
         //this.userRepository = userRepository;
         this.volunteerRepository = volunteerRepository;
     }
+//    private AnimalOwner animalOwner;
+//      public AddService(AnimalOwner animalOwner) {
+//        this.animalOwner = animalOwner;
+//      }
 
     public void anSet(long s_id, long id) {
         animalRepository.AnimalSet(s_id,id);

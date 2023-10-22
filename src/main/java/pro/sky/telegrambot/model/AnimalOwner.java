@@ -17,6 +17,9 @@ public class AnimalOwner {
     private String eMail;
     @Column(name = "trial_period")
     private boolean trialPeriod;
+//    @OneToOne(mappedBy = "animaOwner")
+//    private PetReport petReport;
+
 
     @Column(name = "date")
     private LocalDate date;
