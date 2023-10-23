@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.PetReport;
 import pro.sky.telegrambot.repository.R_PetReport;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 
 
@@ -24,8 +25,10 @@ public class PetReportService {
     }
 
 //    public Collection<PetReport> readPetReportDateBetween(LocalDateTime begin, LocalDateTime end) {
-    public Collection<PetReport> readPetReportDateBetween(LocalDateTime date) {
-        return petReportRepository.findByDate(date);
+    public Collection<PetReport> readPetReportDate(LocalDate date) {
+//        return petReportRepository.findByDateBetween(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+//        return petReportRepository.findByDate(Date.valueOf(date));
+        return petReportRepository.findAllByDate(Date.valueOf(date));
     }
 
     public Collection<PetReport> readById(long id) {

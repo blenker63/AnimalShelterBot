@@ -9,11 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.telegrambot.model.PetReport;
 import pro.sky.telegrambot.service.PetReportService;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collection;
 
 /**
@@ -65,8 +66,8 @@ public class PetReportController {
 //        return ResponseEntity.ok(petReportService.readPetReportDateBetween(begin, end));
 //    }
     @GetMapping("/between")
-    public ResponseEntity<Collection<PetReport>> readPetReportDateBetween(LocalDateTime date) {
-        return ResponseEntity.ok(petReportService.readPetReportDateBetween(date));
+    public ResponseEntity<Collection<PetReport>> readPetReportDateBetween(@RequestParam LocalDate date) {
+        return ResponseEntity.ok(petReportService.readPetReportDate(date));
     }
     @Operation(
             summary = "вывод отчетов по владельцу животного",
