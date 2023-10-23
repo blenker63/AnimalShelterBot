@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.repository.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -59,7 +60,8 @@ public class AddService {
      * @param trialPeriod  испытательный срок
      */
     public AnimalOwner AnimalOwnerSave(String name, String phoneNumber,  String eMail, boolean trialPeriod){
-        AnimalOwner animalOwner = new AnimalOwner(name, phoneNumber, eMail, trialPeriod);
+
+        AnimalOwner animalOwner = new AnimalOwner(name, phoneNumber, eMail, trialPeriod, LocalDate.now());
        return animalOwnerRepository.save(animalOwner);
     }
 
@@ -81,11 +83,11 @@ public class AddService {
      * @param feelings  состояние животного
      * @param check  проверялось ли благоустройство животного
      */
-    public PetReport PetReportSave(String diet, String feelings, boolean check){
-        LocalDateTime localDateTime = LocalDateTime.now();
-        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
-        return petReportRepository.save(petReport);
-    }
+//    public PetReport PetReportSave(String diet, String feelings, boolean check){
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
+//        return petReportRepository.save(petReport);
+//    }
 
     /**
      *  Метод для сохранения данных о приюте

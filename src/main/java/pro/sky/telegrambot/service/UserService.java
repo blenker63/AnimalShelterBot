@@ -1,25 +1,34 @@
 package pro.sky.telegrambot.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pro.sky.telegrambot.model.BotUser;
-import pro.sky.telegrambot.model.User;
-import pro.sky.telegrambot.repository.R_BotUser;
-import pro.sky.telegrambot.repository.R_User;
+import pro.sky.telegrambot.model.*;
+import pro.sky.telegrambot.repository.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
+@Slf4j
 public class UserService {
 
     private final R_BotUser botUserRepository;
     private final R_User userRepository;
+    private final R_AnimalOwner animalOwnerRepository;
+    private final R_PetReport petReportRepository;
 
-    public UserService(R_BotUser botUserRepository, R_User userRepository) {
+    private final R_PhotoReport photoReportRepository;
+
+    public UserService(R_BotUser botUserRepository, R_User userRepository, R_AnimalOwner animalOwnerRepositiry, R_PetReport petReportRepository, R_PhotoReport photoReportRepository) {
         this.botUserRepository = botUserRepository;
         this.userRepository = userRepository;
+        this.animalOwnerRepository = animalOwnerRepositiry;
+        this.petReportRepository = petReportRepository;
+        this.photoReportRepository = photoReportRepository;
     }
 
     /***************************************************************
@@ -60,6 +69,11 @@ public class UserService {
         userRepository.savePhone(chatId, telephone);
     }
 
+    public List<AnimalOwner> allAnimalOwner(){
+        List<AnimalOwner> animalOwners = animalOwnerRepository.findAll();
+        return animalOwners;
+    }
+
     public BotUser findUserById(long id){
         BotUser botUser = botUserRepository.findBotUserByUserId(id);
         return botUser;
@@ -69,4 +83,43 @@ public class UserService {
         User user = userRepository.findUserByChatId(id);
         return user;
     }
+
+    public AnimalOwner findAnimalOwnerById(long chatId){
+        AnimalOwner animalOwner = animalOwnerRepository.findAnimalOwnerById(chatId);
+        return animalOwner;
+    }
+
+    public PetReport findPetReportByOwnerIdAndDate(long ownerId, LocalDate date){
+        PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(ownerId, date);
+        return petReport;
+    }
+
+    public void saveDietReport(long id, String diet){
+        PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(id, LocalDate.now());
+        petReportRepository.saveDiet(petReport.getId(), diet);
+    }
+
+    public void saveFeelingsReport(long id, String feelings){
+        PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(id, LocalDate.now());
+        petReportRepository.saveFeelings(petReport.getId(), feelings);
+    }
+
+    public PetReport addPetReport(PetReport petReport){
+        petReportRepository.save(petReport);
+        return petReport;
+    }
+
+    public PhotoReport addPhotoReport(PhotoReport photoReport){
+        photoReportRepository.save(photoReport);
+        return photoReport;
+    }
+
+    public PhotoReport findPhotoReportByOwnerIdAndDate(Long owner_id, LocalDate date){
+        return photoReportRepository.findPhotoReportByOwnerIdAndDate(owner_id, date);
+    }
+
+    public PetReport checkingLastDateReports(long animalOwner_id){
+        return petReportRepository.checkingLastDateReports(animalOwner_id);
+    }
+
 }

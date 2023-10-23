@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,29 +11,23 @@ public class PetReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @Column(name = "owner_Id")
+    private Long ownerId;
     @Column(name = "diet")
     private String diet;
     @Column(name = "feelings")
     private String feelings;
-    @Column(name = "behaviour")
-    private String behaviour;
-
-    @Column(name = "check")
-    private boolean check;
-
+    @Column(name = "control")
+    private boolean control;
     @Column(name = "date")
-    private LocalDateTime date;
-    @OneToOne
-    @JoinColumn(name = "animalowner_id")
-    private AnimalOwner animalOwner;
+    private LocalDate date;
 
-    public PetReport(String diet, String feelings, boolean check, LocalDateTime date, AnimalOwner animalOwner) {
+    public PetReport(long ownerId, String diet, String feelings, boolean control, LocalDate date) {
+        this.ownerId = ownerId;
         this.diet = diet;
         this.feelings = feelings;
-        this.check = check;
+        this.control = control;
         this.date = date;
-//        this.animalOwner = animalOwner;
     }
 
     public PetReport() {
@@ -45,6 +40,14 @@ public class PetReport {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getDiet() {
@@ -63,42 +66,26 @@ public class PetReport {
         this.feelings = feelings;
     }
 
-    public boolean isCheck() {
-        return check;
+    public boolean isControl() {
+        return control;
     }
 
-    public void setCheck(boolean check) {
-        this.check = check;
+    public void setControl(boolean control) {
+        this.control = control;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public String getBehaviour() {
-        return behaviour;
-    }
-
-    public void setBehaviour(String behaviour) {
-        this.behaviour = behaviour;
-    }
-
-    public AnimalOwner getAnimalOwner() {
-        return animalOwner;
-    }
-
-    public void setAnimalOwner(AnimalOwner animalOwner) {
-        this.animalOwner = animalOwner;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PetReport)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         PetReport petReport = (PetReport) o;
         return id == petReport.id;
     }
@@ -106,18 +93,5 @@ public class PetReport {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "PetReport{" +
-                "id=" + id +
-                ", diet='" + diet + '\'' +
-                ", feelings='" + feelings + '\'' +
-                ", behaviour='" + behaviour + '\'' +
-                ", check=" + check +
-                ", date=" + date +
-                ", animalOwner=" + animalOwner +
-                '}';
     }
 }

@@ -1,29 +1,40 @@
 package pro.sky.telegrambot.listener;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import pro.sky.telegrambot.model.Animal;
-import pro.sky.telegrambot.model.User;
+import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.service.ButtonService;
 import pro.sky.telegrambot.service.UserService;
 import pro.sky.telegrambot.standard.Commands;
 import pro.sky.telegrambot.standard.Information;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
 @Component
 @Slf4j
+
 public class TelegramBotUpdates extends TelegramLongPollingBot {
 
+//    @Autowired
+//    AbsSender bot;
     private final ButtonService buttonService;
     private final UserService userService;
 
@@ -39,6 +50,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
     }
 
 
+    @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
         // Если пришел текст
@@ -51,20 +63,27 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             if (message.equals(Commands.START.getCommand())) {
                 log.info(userName);
                 try {
-                    if (userService.findUserAndAnimal(id) == null) {  //проверяем подавал ли кто заявку на животное
-                        if (userService.findUserById(id) == null) {     // проверяем первый ли раз зашел ли пользователь
-                            userService.saveBotUser(id, userName);      // если нет то сохраняем его в БД
-                            execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", я помогу тебе подобрать домашнего питомца." +
-                                    " Предлагаю посмотреть информацию о приютах. "));
-                        } else {          // если уже был приветствуем его
-                            execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", мы снова рады тебя приветствовать " +
-                                    " в нашем телеграмм чате КотоПес! "));
+                    if (userService.findAnimalOwnerById(id) == null) {  // если животное взято, напоминание о том что нужно отправить отчет
+                        if (userService.findUserAndAnimal(id) == null) {  //проверяем подавал ли кто заявку на животное
+                            if (userService.findUserById(id) == null) {     // проверяем первый ли раз зашел ли пользователь
+                                userService.saveBotUser(id, userName);      // если нет то сохраняем его в БД
+                                execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", я помогу тебе подобрать домашнего питомца." +
+                                        " Предлагаю посмотреть информацию о приютах. "));
+                            } else {          // если уже был приветствуем его
+                                execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", мы снова рады тебя приветствовать " +
+                                        " в нашем телеграмм чате КотоПес! "));
+                            }
+                        } else {  // если подавал заявку, напоминаем на какое животное //
+                            sendMessage(id, "Привет " + userName + ", вы подавали заявку на:");
+                            User us = userService.findUserAndAnimal(id);
+                            outInformForAnimal(id, String.valueOf(us.getAnimalId()), true);
+                            execute(buttonService.setButtonStartMenu(id, "   Продолжить   просмотр   "));
+
                         }
-                    } else {  // если подавал заявку, напоминаем на какое животное //
-                        sendMessage(id, "Привет " + userName + ", вы подавали заявку на:");
-                        User us = userService.findUserAndAnimal(id);
-                        outInformForAnimal(id, String.valueOf(us.getAnimalId()), true);
-                        execute(buttonService.setButtonStartMenu(id, "   Продолжить   просмотр   "));
+                    } else {
+                        execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", желаешь еще посмотреть питомцев " +
+                                " в нашем телеграмм чате КотоПес! "));
+                        execute(buttonService.sendReport(id, "Незабываем отправлять ежедневный отчет!"));
                     }
                 } catch (TelegramApiException e) {
                     log.error("Сообщение не отправлено!");
@@ -86,7 +105,56 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             if (message.startsWith("#")) {
                 sendMessage(6515082139L, message);
             }
+
+            /**********************************************
+             *  если первый символ 'Питание:' сохраняем данные в отчет
+             **********************************************/
+            if (message.startsWith("Питание:")) {
+                if (userService.findPetReportByOwnerIdAndDate(id, LocalDate.now()) == null) {
+                    PetReport petReport = new PetReport(id, message, null, false, LocalDate.now());
+                    userService.addPetReport(petReport);
+                }else {
+                    userService.saveDietReport(id, message);
+                }
+            }
+
+            /**********************************************
+             *  если первый символ 'Поведение:' сохраняем данные в отчет
+             **********************************************/
+            if (message.startsWith("Поведение:")) {
+                if (userService.findPetReportByOwnerIdAndDate(id, LocalDate.now()) == null) {
+                    PetReport petReport = new PetReport(id, null, message, false, LocalDate.now());
+                    userService.addPetReport(petReport);
+                }else {
+                    userService.saveFeelingsReport(id, message);
+                }
+            }
         }
+
+
+
+
+        /**************************************************
+         *  если пришло фото
+         *****************************************************/
+        if (update.hasMessage() && update.getMessage().hasPhoto()) {
+            long id = update.getMessage().getChatId();
+            PhotoSize photo = update.getMessage().getPhoto().get(3);
+            log.info("Фото пришло");
+            GetFile getFile = new GetFile(photo.getFileId());
+
+            try {
+                var file = execute(getFile);
+                File path = new java.io.File("photos/" + id + "_" + photo.getFileUniqueId() + LocalDate.now() +".jpg");
+                log.info(path.getPath());
+                downloadFile(file, path);
+                PhotoReport photoReport = new PhotoReport(id, LocalDate.now(), path.getPath());
+                userService.addPhotoReport(photoReport);
+            } catch (TelegramApiException e) {
+                log.info("Фото не загружено");
+            }
+        }
+
 
 
         /****************************************************************************************
@@ -200,29 +268,41 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
              * Информация об условиях чтобы взять собаку
              *********************************************************/
             if (callData.equals("/information_for_adopting_an_dog")) {
-                sendMessage(chatId, Information.RULES_ACQUAINTANCE_ANIMAL.getDescription()+"\n"+
-                        Information.DOCUMENT_LIST.getDescription()+"\n"+
-                        Information.TRANSPORTATION_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.HOME_YOUNG_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.HOME_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.ANIMAL_WITH_DISABILITIES_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.COMMUNICATION_PRIMARY_ADVICE_DOG.getDescription()+"\n"+
-                        Information.CYNOLOGIST_LIST.getDescription()+"\n"+
-                        Information.REASONS_FOR_REFUSAL_LIST.getDescription()+"\n"+
+                sendMessage(chatId, Information.RULES_ACQUAINTANCE_ANIMAL.getDescription() + "\n" +
+                        Information.DOCUMENT_LIST.getDescription() + "\n" +
+                        Information.TRANSPORTATION_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.HOME_YOUNG_ANIMAL_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.HOME_ANIMAL_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.ANIMAL_WITH_DISABILITIES_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.COMMUNICATION_PRIMARY_ADVICE_DOG.getDescription() + "\n" +
+                        Information.CYNOLOGIST_LIST.getDescription() + "\n" +
+                        Information.REASONS_FOR_REFUSAL_LIST.getDescription() + "\n" +
                         "Также вы можете написать нашим волонтерам поставив '#' в начале сообщения.");
             }
             /**********************************************************
              * Информация об условиях чтобы взять кота
              *********************************************************/
             if (callData.equals("/information_for_adopting_an_cat")) {
-                sendMessage(chatId, Information.RULES_ACQUAINTANCE_ANIMAL.getDescription()+"\n"+
-                        Information.DOCUMENT_LIST.getDescription()+"\n"+
-                        Information.TRANSPORTATION_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.HOME_YOUNG_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.HOME_ANIMAL_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.ANIMAL_WITH_DISABILITIES_RECOMMENDATIONS.getDescription()+"\n"+
-                        Information.REASONS_FOR_REFUSAL_LIST.getDescription()+"\n"+
+                sendMessage(chatId, Information.RULES_ACQUAINTANCE_ANIMAL.getDescription() + "\n" +
+                        Information.DOCUMENT_LIST.getDescription() + "\n" +
+                        Information.TRANSPORTATION_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.HOME_YOUNG_ANIMAL_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.HOME_ANIMAL_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.ANIMAL_WITH_DISABILITIES_RECOMMENDATIONS.getDescription() + "\n" +
+                        Information.REASONS_FOR_REFUSAL_LIST.getDescription() + "\n" +
                         "Также вы можете написать нашим волонтерам поставив '#' в начале сообщения.");
+            }
+
+            /**********************************************************
+             * действие на кнопку "Отправить отчет", если на текущую дату отчет не был создан
+             * он создается в БД
+             *********************************************************/
+            if (callData.equals("/send_report")) {
+                checkingReports();
+                sendMessage(chatId, "Для отчета отправьте фото животного, а также два сообщения:\n" +
+                        "1. в первом сообщении сначала напишите 'Питание:' и опишите питание за сегодняшний деть.\n" +
+                        "2. во втором сообщении сначала напишите 'Поведение:' и опишите как ведет себя питомец " +
+                        "на новом месте.");
             }
 
             outInformForAnimal(chatId, callData, false);
@@ -287,6 +367,49 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                         "связаться, а также ознакомтесь с тем, что нужно сделать прежде чем забрать питомца домой."));
             } catch (TelegramApiException e) {
                 log.error("Сообщение не отправлено!");
+            }
+        }
+    }
+
+    /************************************************************
+     * Проверка отчетов каждый день в 21:00
+     ***********************************************************/
+    @Scheduled(cron = "* * 21 * * *")
+    public void checkingReports(){
+        LocalDate dateNow = LocalDate.now();
+        List<AnimalOwner> animalOwners = userService.allAnimalOwner();                                                          // список всех владельцев
+        for (AnimalOwner animalOwner : animalOwners){
+            if (userService.findPetReportByOwnerIdAndDate(animalOwner.getId(), dateNow) == null){                               // если сегодня отчетов не было
+                try {                                                                                                           // напоминаем владельцу
+                    execute(buttonService.sendReport(animalOwner.getId(), Information.BOT_OWNER_MESSAGE.getDescription()));
+                }catch (TelegramApiException e) {
+                    log.error("Сообщение не отправлено!");
+                }
+            }
+            if (userService.checkingLastDateReports(animalOwner.getId()) == null){                                              // если владелец еще не оставлял отчетов
+                Period period = animalOwner.getDate().until(dateNow);                                                            // проверяем как давно он взял питомца
+                if (period.getDays() >= 2){                                                                                     // если больше двух дней назад
+                    //sendMessage(Id-volunteer, Information.BOT_VOLUNTEER_MESSAGE.getDescription()+animalOwner.toString());     // отправляем предупреждение волонтеру
+                    log.info("Отчетов не было больше 2-х дней" + animalOwner.toString());
+                }
+            }else {
+                PetReport petReport = userService.checkingLastDateReports(animalOwner.getId());                                 // если отчет есть, забираем по последней дате добавления
+                LocalDate reportDate = petReport.getDate();                                                                     // извлекаем дату
+                if (!(petReport.getDate().equals(dateNow))){                                                                    // сверяем с текущей датой, ни сегодня ли прислан отчет
+                    Period period = reportDate.until(dateNow);                                                                  // если нет проверяем как давно
+                    log.info(String.valueOf(period.getDays()));
+                    if (period.getDays() >=2 ){                                                                                 // если два или более дня назад
+                        //sendMessage(Id-volunteer, Information.BOT_VOLUNTEER_MESSAGE.getDescription()+animalOwner.toString()); // предупреждаем волонтера
+                        log.info("Отчетов не было больше 2-х дней");
+                    }
+                }else {
+                    if (petReport.getDiet() == null || petReport.getFeelings() == null){
+                        sendMessage(animalOwner.getId(), " Пришлите текстовый отчет!");
+                    }
+                    if (userService.findPhotoReportByOwnerIdAndDate(animalOwner.getId(), LocalDate.now()) == null){
+                        sendMessage(animalOwner.getId(), " Пришлите фото отчет!");
+                    }
+                }
             }
         }
     }
