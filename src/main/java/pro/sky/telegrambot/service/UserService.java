@@ -114,6 +114,10 @@ public class UserService {
         return photoReport;
     }
 
+    public PhotoReport findPhotoReportByOwnerIdAndDate(Long owner_id, LocalDate date){
+        return photoReportRepository.findPhotoReportByOwnerIdAndDate(owner_id, date);
+    }
+
     public PetReport checkingLastDateReports(long animalOwner_id){
         return petReportRepository.checkingLastDateReports(animalOwner_id);
     }
