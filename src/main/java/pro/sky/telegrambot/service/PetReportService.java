@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.PetReport;
 import pro.sky.telegrambot.repository.R_PetReport;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 
@@ -20,5 +21,18 @@ public class PetReportService {
     public Collection<PetReport> readAllReport() {
 //        logger.info("Invoked readAll petReport  method");
         return  petReportRepository.findAll();
+    }
+
+//    public Collection<PetReport> readPetReportDateBetween(LocalDateTime begin, LocalDateTime end) {
+    public Collection<PetReport> readPetReportDateBetween(LocalDateTime date) {
+        return petReportRepository.findByDate(date);
+    }
+
+    public Collection<PetReport> readById(long id) {
+        return petReportRepository.findById(id);
+    }
+
+    public Collection<PetReport> readCheck(boolean check) {
+        return petReportRepository.findByCheck(check);
     }
 }

@@ -24,10 +24,11 @@ public class PetReport {
     @Column(name = "date")
     private LocalDateTime date;
 //    @OneToOne
-//    @JoinColumn(name = "animalowner_id")
+//    @JoinColumn(name = "animalOwner_id")
 //    private AnimalOwner animalOwner;
 
     public PetReport(String diet, String feelings, boolean check, LocalDateTime date) {
+//    public PetReport(String diet, String feelings, boolean check, LocalDateTime date, AnimalOwner animalOwner) {
         this.diet = diet;
         this.feelings = feelings;
         this.check = check;
