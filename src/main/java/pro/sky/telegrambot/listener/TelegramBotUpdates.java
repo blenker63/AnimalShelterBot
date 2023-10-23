@@ -402,6 +402,13 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                         //sendMessage(Id-volunteer, Information.BOT_VOLUNTEER_MESSAGE.getDescription()+animalOwner.toString()); // предупреждаем волонтера
                         log.info("Отчетов не было больше 2-х дней");
                     }
+                }else {
+                    if (petReport.getDiet() == null || petReport.getFeelings() == null){
+                        sendMessage(animalOwner.getId(), " Пришлите текстовый отчет!");
+                    }
+                    if (userService.findPhotoReportByOwnerIdAndDate(animalOwner.getId(), LocalDate.now()) == null){
+                        sendMessage(animalOwner.getId(), " Пришлите фото отчет!");
+                    }
                 }
             }
         }
