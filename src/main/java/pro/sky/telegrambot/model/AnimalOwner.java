@@ -1,6 +1,8 @@
 package pro.sky.telegrambot.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+//import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 

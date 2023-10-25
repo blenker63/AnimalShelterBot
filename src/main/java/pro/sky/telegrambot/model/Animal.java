@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.model;
-import javax.persistence.*;
+//import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 import java.util.Objects;

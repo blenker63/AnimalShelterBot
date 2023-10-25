@@ -1,9 +1,10 @@
 package pro.sky.telegrambot.model;
 
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")

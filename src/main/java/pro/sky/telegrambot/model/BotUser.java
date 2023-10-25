@@ -1,9 +1,11 @@
 package pro.sky.telegrambot.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import pro.sky.telegrambot.repository.R_BotUser;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
