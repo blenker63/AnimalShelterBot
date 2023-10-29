@@ -1,9 +1,9 @@
 package pro.sky.telegrambot.model;
 
 import org.hibernate.annotations.Type;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 
-// import javax.persistence.*;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity

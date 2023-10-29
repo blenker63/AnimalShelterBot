@@ -1,8 +1,8 @@
 package pro.sky.telegrambot.model;
 
-//import javax.persistence.*;
+import javax.persistence.*;
 import java.util.Objects;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 
 @Entity
 @Table(name = "volunteer")
