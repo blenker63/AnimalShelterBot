@@ -10,6 +10,8 @@ import pro.sky.telegrambot.repository.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -76,39 +78,66 @@ class UserServiceTest {
     }
 
     @Test
-    void findAnimalOwnerById() {
+    void findAnimalOwnerByIdTest() {
         when(animalOwnerMock.findAnimalOwnerById(1L)).thenReturn(animalOwner);
         assertThat(service.findAnimalOwnerById(1L)).isEqualTo(animalOwner);
     }
 
     @Test
-    void findPetReportByOwnerIdAndDate() {
+    void findPetReportByOwnerIdAndDateTest() {
         when(petReportMock.findPetReportByOwnerIdAndDate(1L, LocalDate.now())).thenReturn(petReport);
         assertThat(service.findPetReportByOwnerIdAndDate(1L, LocalDate.now())).isEqualTo(petReport);
 
     }
 
     @Test
-    void saveDietReport() {
+    void saveDietReportTest() {
+        when(petReportMock.findPetReportByOwnerIdAndDate(1L, LocalDate.now())).thenReturn(petReport);
+        service.saveDietReport(1L, "diet");
+        verify(petReportMock, times(1)).saveDiet(petReport.getId(), petReport.getDiet());
     }
 
     @Test
-    void saveFeelingsReport() {
+    void saveFeelingsReportTest() {
+        when(petReportMock.findPetReportByOwnerIdAndDate(1L, LocalDate.now())).thenReturn(petReport);
+        service.saveFeelingsReport(1L, "good");
+        verify(petReportMock, times(1)).saveFeelings(petReport.getId(), petReport.getFeelings());
     }
 
     @Test
-    void addPetReport() {
+    void addPetReportTest() {
+        when(petReportMock.save(petReport)).thenReturn(petReport);
+        assertThat(service.addPetReport(petReport)).isEqualTo(petReport);
+        verify(petReportMock, times(1)).save(petReport);
     }
 
     @Test
-    void addPhotoReport() {
+    void addPhotoReportTest() {
+        when(photoReportMock.save(photoReport)).thenReturn(photoReport);
+        assertThat(service.addPhotoReport(photoReport)).isEqualTo(photoReport);
+        verify(photoReportMock, times(1)).save(photoReport);
     }
 
     @Test
     void findPhotoReportByOwnerIdAndDate() {
+        when(photoReportMock.findPhotoReportByOwnerIdAndDate(1L, LocalDate.now())).thenReturn(photoReport);
+        assertThat(service.findPhotoReportByOwnerIdAndDate(1L, LocalDate.now())).isEqualTo(photoReport);
     }
 
     @Test
     void checkingLastDateReports() {
+        when(petReportMock.checkingLastDateReports(1l)).thenReturn(petReport);
+        assertThat(service.checkingLastDateReports(1L)).isEqualTo(petReport);
+    }
+
+    @Test
+    void allAnimalOwner() {
+        List<AnimalOwner> animalOwners = new ArrayList<>();
+        animalOwners.add(new AnimalOwner("leo", "88007008090", "mail@mail",
+                true, LocalDate.now()));
+        animalOwners.add(new AnimalOwner("neo", "88007008050", "mail@gmail",
+                true, LocalDate.now()));
+
+        when(animalOwnerMock.findAll()).thenReturn(animalOwners);
     }
 }

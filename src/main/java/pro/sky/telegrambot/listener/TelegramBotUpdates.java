@@ -35,6 +35,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
 
 //    @Autowired
 //    AbsSender bot;
+
     private final ButtonService buttonService;
     private final UserService userService;
 
@@ -413,6 +414,8 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             }
         }
     }
+
+
 }
 
 
