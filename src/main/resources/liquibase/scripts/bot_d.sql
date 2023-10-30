@@ -1,6 +1,7 @@
 -- liquibase formatted sql
 
 -- changeset adrot:1
+
 CREATE TABLE animal(
     id SERIAL PRIMARY KEY ,
     animal_type VARCHAR,
