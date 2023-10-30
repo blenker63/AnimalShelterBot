@@ -69,57 +69,123 @@ public class UserService {
         userRepository.savePhone(chatId, telephone);
     }
 
+    /**
+     * поиск всех владельцев животных
+     * @return список владельцев
+     */
     public List<AnimalOwner> allAnimalOwner(){
         List<AnimalOwner> animalOwners = animalOwnerRepository.findAll();
         return animalOwners;
     }
 
+    /**
+     * поиск заходившего в бот пользователя
+     * @param id пользователя
+     * @return инфо о пользователе
+     */
     public BotUser findUserById(long id){
         BotUser botUser = botUserRepository.findBotUserByUserId(id);
         return botUser;
     }
 
+    /**
+     * поиск пользователя подавшего заявку
+     * @param id пользователя
+     * @return инфо о пользователе
+     */
     public User findUserAndAnimal(long id){
         User user = userRepository.findUserByChatId(id);
         return user;
     }
 
+    /**
+     * поиск пользователя взявшего питомца
+     * @param chatId пользователя
+     * @return инфо о пользователе
+     */
     public AnimalOwner findAnimalOwnerById(long chatId){
         AnimalOwner animalOwner = animalOwnerRepository.findAnimalOwnerById(chatId);
         return animalOwner;
     }
 
+    /**
+     * поиск отчета по дате добавления
+     * @param ownerId пользователя
+     * @param date дата добавления отчета
+     * @return отчет
+     */
     public PetReport findPetReportByOwnerIdAndDate(long ownerId, LocalDate date){
         PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(ownerId, date);
         return petReport;
     }
 
+    /**
+     * сохранение рациона питания в отчет
+     * @param id владельца питомца
+     * @param diet рациона питания
+     */
     public void saveDietReport(long id, String diet){
         PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(id, LocalDate.now());
         petReportRepository.saveDiet(petReport.getId(), diet);
     }
 
+    /**
+     * сохранение поведения питомца в отчет
+     * @param id владельца питомца
+     * @param feelings поведение питомца
+     */
     public void saveFeelingsReport(long id, String feelings){
         PetReport petReport = petReportRepository.findPetReportByOwnerIdAndDate(id, LocalDate.now());
         petReportRepository.saveFeelings(petReport.getId(), feelings);
     }
 
+    /**
+     * добавление отчета в БД
+     * @param petReport отчет
+     * @return отчет
+     */
     public PetReport addPetReport(PetReport petReport){
         petReportRepository.save(petReport);
         return petReport;
     }
 
+    /**
+     * выбор отчета по последней дате добавления
+     * @param animalOwner_id владельца питомца
+     * @return отчет
+     */
+    public PetReport checkingLastDateReports(long animalOwner_id){
+        return petReportRepository.checkingLastDateReports(animalOwner_id);
+    }
+
+    /**
+     * добавление фото отчета в БД
+     * @param photoReport фото отчет
+     * @return фото отчет
+     */
     public PhotoReport addPhotoReport(PhotoReport photoReport){
         photoReportRepository.save(photoReport);
         return photoReport;
     }
 
+    /**
+     * поиск фото в отчете по владельцу и дате добавления
+     * @param owner_id владельца
+     * @param date дата
+     * @return фото отчет
+     */
     public PhotoReport findPhotoReportByOwnerIdAndDate(Long owner_id, LocalDate date){
         return photoReportRepository.findPhotoReportByOwnerIdAndDate(owner_id, date);
     }
 
-    public PetReport checkingLastDateReports(long animalOwner_id){
-        return petReportRepository.checkingLastDateReports(animalOwner_id);
-    }
+    /**
+     * перезапись фото в БД
+     * @param ownerId пользователя
+     * @param dir путь где хранится фото
+     * @return фото отчет
+     */
+     public PhotoReport recordDirPhoto(long ownerId, String dir){
+        return photoReportRepository.recordDirPhoto(ownerId, dir);
+     }
 
 }

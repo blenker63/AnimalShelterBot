@@ -18,7 +18,7 @@ public class Animal {
     private int age;
     @Column(name = "breed")
     private String breed;
-    @Column(name = "pathToPhoto")
+    @Column(name = "path_To_Photo")
     private String pathToPhoto;
 
     @ManyToOne

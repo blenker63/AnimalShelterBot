@@ -33,7 +33,7 @@ import java.util.List;
 
 public class TelegramBotUpdates extends TelegramLongPollingBot {
 
-//    @Autowired
+    //    @Autowired
 //    AbsSender bot;
     private final ButtonService buttonService;
     private final UserService userService;
@@ -109,11 +109,11 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             /**********************************************
              *  если первый символ 'Питание:' сохраняем данные в отчет
              **********************************************/
-            if (message.startsWith("Питание:")) {
+            if (message.startsWith("Питание")) {
                 if (userService.findPetReportByOwnerIdAndDate(id, LocalDate.now()) == null) {
                     PetReport petReport = new PetReport(id, message, null, false, LocalDate.now());
                     userService.addPetReport(petReport);
-                }else {
+                } else {
                     userService.saveDietReport(id, message);
                 }
             }
@@ -121,17 +121,15 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             /**********************************************
              *  если первый символ 'Поведение:' сохраняем данные в отчет
              **********************************************/
-            if (message.startsWith("Поведение:")) {
+            if (message.startsWith("Поведение")) {
                 if (userService.findPetReportByOwnerIdAndDate(id, LocalDate.now()) == null) {
                     PetReport petReport = new PetReport(id, null, message, false, LocalDate.now());
                     userService.addPetReport(petReport);
-                }else {
+                } else {
                     userService.saveFeelingsReport(id, message);
                 }
             }
         }
-
-
 
 
         /**************************************************
@@ -142,19 +140,21 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
             PhotoSize photo = update.getMessage().getPhoto().get(3);
             log.info("Фото пришло");
             GetFile getFile = new GetFile(photo.getFileId());
-
-            try {
-                var file = execute(getFile);
-                File path = new java.io.File("photos/" + id + "_" + photo.getFileUniqueId() + LocalDate.now() +".jpg");
-                log.info(path.getPath());
-                downloadFile(file, path);
-                PhotoReport photoReport = new PhotoReport(id, LocalDate.now(), path.getPath());
-                userService.addPhotoReport(photoReport);
-            } catch (TelegramApiException e) {
-                log.info("Фото не загружено");
+            var file = execute(getFile);
+            File path = new java.io.File("photos/" + id + "_" + photo.getFileUniqueId() + LocalDate.now() + ".jpg");
+            log.info(path.getPath());
+            downloadFile(file, path);
+            if (userService.findPhotoReportByOwnerIdAndDate(id, LocalDate.now()) == null) {                                 // если сегодня фото уже присылалось, перезаписываем путь в БД (один день одно фото)
+                try {
+                    PhotoReport photoReport = new PhotoReport(id, LocalDate.now(), path.getPath());
+                    userService.addPhotoReport(photoReport);
+                } catch (Exception e) {
+                    log.info("Фото не загружено");
+                }
+            } else {
+                userService.recordDirPhoto(id, path.getPath());
             }
         }
-
 
 
         /****************************************************************************************
@@ -375,38 +375,38 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
      * Проверка отчетов каждый день в 21:00
      ***********************************************************/
     @Scheduled(cron = "* * 21 * * *")
-    public void checkingReports(){
+    public void checkingReports() {
         LocalDate dateNow = LocalDate.now();
         List<AnimalOwner> animalOwners = userService.allAnimalOwner();                                                          // список всех владельцев
-        for (AnimalOwner animalOwner : animalOwners){
-            if (userService.findPetReportByOwnerIdAndDate(animalOwner.getId(), dateNow) == null){                               // если сегодня отчетов не было
+        for (AnimalOwner animalOwner : animalOwners) {
+            if (userService.findPetReportByOwnerIdAndDate(animalOwner.getId(), dateNow) == null) {                               // если сегодня отчетов не было
                 try {                                                                                                           // напоминаем владельцу
                     execute(buttonService.sendReport(animalOwner.getId(), Information.BOT_OWNER_MESSAGE.getDescription()));
-                }catch (TelegramApiException e) {
+                } catch (TelegramApiException e) {
                     log.error("Сообщение не отправлено!");
                 }
             }
-            if (userService.checkingLastDateReports(animalOwner.getId()) == null){                                              // если владелец еще не оставлял отчетов
+            if (userService.checkingLastDateReports(animalOwner.getId()) == null) {                                              // если владелец еще не оставлял отчетов
                 Period period = animalOwner.getDate().until(dateNow);                                                            // проверяем как давно он взял питомца
-                if (period.getDays() >= 2){                                                                                     // если больше двух дней назад
+                if (period.getDays() >= 2) {                                                                                     // если больше двух дней назад
                     //sendMessage(Id-volunteer, Information.BOT_VOLUNTEER_MESSAGE.getDescription()+animalOwner.toString());     // отправляем предупреждение волонтеру
                     log.info("Отчетов не было больше 2-х дней" + animalOwner.toString());
                 }
-            }else {
+            } else {
                 PetReport petReport = userService.checkingLastDateReports(animalOwner.getId());                                 // если отчет есть, забираем по последней дате добавления
                 LocalDate reportDate = petReport.getDate();                                                                     // извлекаем дату
-                if (!(petReport.getDate().equals(dateNow))){                                                                    // сверяем с текущей датой, ни сегодня ли прислан отчет
+                if (!(petReport.getDate().equals(dateNow))) {                                                                    // сверяем с текущей датой, ни сегодня ли прислан отчет
                     Period period = reportDate.until(dateNow);                                                                  // если нет проверяем как давно
                     log.info(String.valueOf(period.getDays()));
-                    if (period.getDays() >=2 ){                                                                                 // если два или более дня назад
+                    if (period.getDays() >= 2) {                                                                                 // если два или более дня назад
                         //sendMessage(Id-volunteer, Information.BOT_VOLUNTEER_MESSAGE.getDescription()+animalOwner.toString()); // предупреждаем волонтера
                         log.info("Отчетов не было больше 2-х дней");
                     }
-                }else {
-                    if (petReport.getDiet() == null || petReport.getFeelings() == null){
+                } else {
+                    if (petReport.getDiet() == null || petReport.getFeelings() == null) {
                         sendMessage(animalOwner.getId(), " Пришлите текстовый отчет!");
                     }
-                    if (userService.findPhotoReportByOwnerIdAndDate(animalOwner.getId(), LocalDate.now()) == null){
+                    if (userService.findPhotoReportByOwnerIdAndDate(animalOwner.getId(), LocalDate.now()) == null) {
                         sendMessage(animalOwner.getId(), " Пришлите фото отчет!");
                     }
                 }
