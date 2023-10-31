@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.telegrambot.model.Animal;
-import pro.sky.telegrambot.model.PetReport;
 import pro.sky.telegrambot.service.AddService;
 
 /**
@@ -40,27 +39,27 @@ public class AnimalsController {
                     )
             }
     )
-    @PostMapping("/animal/{animalType}/{name}/{age}/{breed}")
+    @PostMapping("/{animalType}/{name}/{age}/{breed}")
     public void AnimalSave(@PathVariable String animalType, @PathVariable String name, @PathVariable int age, @PathVariable String breed) {
         addService.AnimalSave(animalType, name, age, breed);
     }
 
-    @Operation(
-            summary = "Отчет по животному взятому из приюта",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "отчет заполнен",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = PetReport.class))
-                            )
-                    )
-            }
-    )
-    @PostMapping("/pet-report/{diet}/{feelings}/{check}")
-    public void PetReportSave(@PathVariable String diet, @PathVariable String feelings, @PathVariable boolean check) {
-        addService.PetReportSave(diet, feelings, check);
-    }
+//    @Operation(
+//            summary = "Отчет по животному взятому из приюта",
+//            responses = {
+//                    @ApiResponse(
+//                            responseCode = "200",
+//                            description = "отчет заполнен",
+//                            content = @Content(
+//                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+//                                    array = @ArraySchema(schema = @Schema(implementation = PetReport.class))
+//                            )
+//                    )
+//            }
+//    )
+//    @PostMapping("/pet-report/{diet}/{feelings}/{check}")
+//    public void PetReportSave(@PathVariable String diet, @PathVariable String feelings, @PathVariable boolean check) {
+//        addService.PetReportSave(diet, feelings, check);
+//    }
 
 }
