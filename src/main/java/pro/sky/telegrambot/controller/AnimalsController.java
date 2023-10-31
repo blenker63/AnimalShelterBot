@@ -40,9 +40,9 @@ public class AnimalsController {
                     )
             }
     )
-    @PostMapping("/animal/{animalType}/{name}/{age}/{breed}")
-    public void AnimalSave(@PathVariable String animalType, @PathVariable String name, @PathVariable int age, @PathVariable String breed) {
-        addService.AnimalSave(animalType, name, age, breed);
+    @PostMapping("/{animalType}/{name}/{age}/{breed}")
+    public Animal AnimalSave(@PathVariable String animalType, @PathVariable String name, @PathVariable int age, @PathVariable String breed) {
+        return AnimalSave(animalType, name, age, breed);
     }
 
 //    @Operation(
