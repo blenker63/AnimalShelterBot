@@ -52,16 +52,24 @@ class TelegramBotUpdatesTest {
         var callback = mock(CallbackQuery.class);
         var message = mock(Message.class);
         var chat = mock(Chat.class);
+        var sendMessage = mock(SendMessage.class);
         when(upd.getCallbackQuery()).thenReturn(callback);
-        when(callback.getData()).thenReturn(Commands.START.getCommand());
+        when(callback.getData()).thenReturn(Commands.CAT_SHELTER.getCommand());
         when(callback.getMessage()).thenReturn(message);
+        when(upd.getMessage()).thenReturn(message);
         when(message.getChatId()).thenReturn(1L);
-        botUpdates.onUpdateReceived(upd);
-        //verify(bot).execute(captor.capture());
-       // verify(bot, times(1)).execute(botUpdates);
-       // var value = captor.getValue();
-      //  assertEquals(1L, value.getChatId());
-        //assertEquals(Commands.START.getCommand(), value.getText());
+        when(upd.hasMessage()).thenReturn(true);
+        when(message.getText()).thenReturn(Commands.START.getCommand());
+        when(message.hasText()).thenReturn(true);
+        when(message.getChat()).thenReturn(chat);
+        when(chat.getFirstName()).thenReturn("test");
+        when(buttonService.setButtonStartMenu(anyLong(), anyString())).thenReturn(new SendMessage("1", "test"));
+        bot.onUpdateReceived(upd);
+        verify(bot).execute(captor.capture());
+
+        var value = captor.getValue();
+        assertEquals(1L, value.getChatId());
+        assertEquals(Commands.CAT_SHELTER.getCommand(), value.getText());
     }
 
     @Test
