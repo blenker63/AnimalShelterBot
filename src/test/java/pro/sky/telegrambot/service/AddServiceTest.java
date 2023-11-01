@@ -47,7 +47,7 @@ class AddServiceTest {
     void animalOwnerSaveTest() {
         var animalOwner = new AnimalOwner("leo", "88009007060", "mail@mail.ru", true, LocalDate.now());
         when(rAnimalOwnerMock.save(animalOwner)).thenReturn(animalOwner);
-        assertEquals(animalOwner, service.AnimalOwnerSave("leo", "88009007060", "mail@mail.ru", true));
+        assertEquals(animalOwner, service.AnimalOwnerSave(animalOwner));
     }
 
 

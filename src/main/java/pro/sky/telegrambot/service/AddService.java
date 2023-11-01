@@ -59,9 +59,9 @@ public class AddService {
      * @param eMail  электронная почта
      * @param trialPeriod  испытательный срок
      */
-    public AnimalOwner AnimalOwnerSave(String name, String phoneNumber,  String eMail, boolean trialPeriod){
+    public AnimalOwner AnimalOwnerSave(AnimalOwner animalOwner){
 
-        AnimalOwner animalOwner = new AnimalOwner(name, phoneNumber, eMail, trialPeriod, LocalDate.now());
+       //animalOwner = new AnimalOwner(String name, phoneNumber, eMail, trialPeriod, LocalDate.now());
        return animalOwnerRepository.save(animalOwner);
     }
 
