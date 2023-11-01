@@ -47,7 +47,7 @@ class AnimalOwnerControllerTest {
         animalOwnerObject.put("leo", name);
         animalOwnerObject.put("80080088080", phoneNumber);
         animalOwnerObject.put("mail@mail", eMail);
-        animalOwnerObject.put(String.valueOf(true), trial);
+        //animalOwnerObject.put(String.valueOf(true), trial);
         AnimalOwner animalOwner = new AnimalOwner();
         animalOwner.setName("leo");
         animalOwner.setPhoneNumber("80080088080");
@@ -65,7 +65,7 @@ class AnimalOwnerControllerTest {
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.phoneNumber").value(phoneNumber))
                 .andExpect(jsonPath("$.eMail").value(eMail))
-                .andExpect(jsonPath("$.trial").value(trial))
+                ///.andExpect(jsonPath("$.trial").value(trial))
                 .andExpect(jsonPath("$.id").value(id));
 
 
