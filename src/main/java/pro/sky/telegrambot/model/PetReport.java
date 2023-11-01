@@ -27,7 +27,7 @@ public class PetReport {
 //    @JoinColumn(name = "animalOwner_id")
 //    private AnimalOwner animalOwner;
 
-    public PetReport(String diet, String feelings, boolean check, LocalDateTime date) {
+    public PetReport(long id, String diet, String feelings, boolean check, LocalDateTime date) {
 //    public PetReport(String diet, String feelings, boolean check, LocalDateTime date, AnimalOwner animalOwner) {
         this.diet = diet;
         this.feelings = feelings;

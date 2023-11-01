@@ -63,7 +63,7 @@ public class PetReportController {
                     )
             }
     )
-    @GetMapping("/between")
+    @GetMapping("/date")
     public ResponseEntity<Collection<PetReport>> readPetReportDate(@Parameter(description = "Дата отчета",
                                                                                      example = "2023-09-20")
                                                                           @RequestParam String date) {
@@ -121,7 +121,13 @@ public class PetReportController {
             }
     )
     @PostMapping("/pet-report/{diet}/{feelings}/{check}")
-    public void PetReportSave(@PathVariable String diet, @PathVariable String feelings, @PathVariable boolean check) {
-        addService.PetReportSave(diet, feelings, check);
+    public void PetReportSave(@RequestParam long id,
+                              @PathVariable String diet,
+                              @PathVariable String feelings,
+                              @PathVariable boolean check) {
+        addService.PetReportSave(id, diet, feelings, check);
     }
+//    public void PetReportSave(@PathVariable boolean check) {
+//        addService.PetReportSave(check);
+
 }

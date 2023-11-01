@@ -63,6 +63,16 @@ public class AddService {
        return animalOwnerRepository.save(animalOwner);
     }
 
+//    public AnimalOwner AnimalOwnerReplacementTrial (long id, boolean trialPeriod){
+////        return animalOwnerRepository.findByIdOwnerTrialPeriod(id)
+//        String name = animalOwnerRepository.findById(id).();
+//        String phoneNumber;
+//        String eMail;
+//        return animalOwnerRepository.findById(id)
+//                .orElse(new AnimalOwner());
+////                .orElse(new AnimalOwner(trialPeriod));
+//    }
+
 //    /**
 //     *  Метод для сохранения данных пользователя написавшего в чат,
 //     * @param chatId - ID пользователя
@@ -81,9 +91,10 @@ public class AddService {
      * @param feelings  состояние животного
      * @param check  проверялось ли благоустройство животного
      */
-    public PetReport PetReportSave(String diet, String feelings, boolean check){
+//    public PetReport PetReportSave(String diet, String feelings, boolean check){
+    public PetReport PetReportSave(long id, String diet, String feelings, boolean check){
         LocalDateTime localDateTime = LocalDateTime.now();
-        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
+        PetReport petReport = new PetReport(id, diet, feelings, check, localDateTime);
         return petReportRepository.save(petReport);
     }
 

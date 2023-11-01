@@ -16,7 +16,7 @@ public class AnimalOwner {
     @Column(name = "e_mail")
     private String eMail;
     @Column(name = "trial_period")
-    private boolean trialPeriod;
+    private boolean trialPeriod;       //true - испытательный срок идет, false -  испытательный срок закончился
 //    @OneToOne(mappedBy = "animaOwner")
 //    private PetReport petReport;
 
