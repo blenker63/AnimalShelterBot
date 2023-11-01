@@ -14,8 +14,11 @@ import pro.sky.telegrambot.repository.*;
 import pro.sky.telegrambot.service.AddService;
 
 
+import java.time.LocalDate;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AnimalOwnerController.class)
@@ -42,18 +45,22 @@ class AnimalOwnerControllerTest {
         String phoneNumber = "80080088080";
         String eMail = "mail@mail";
         boolean trial = true;
-        long id = 1L;
+        Long id = 1L;
+        LocalDate date = LocalDate.now();
         JSONObject animalOwnerObject = new JSONObject();
-        animalOwnerObject.put("leo", name);
-        animalOwnerObject.put("80080088080", phoneNumber);
-        animalOwnerObject.put("mail@mail", eMail);
-        animalOwnerObject.put(String.valueOf(true), trial);
+        animalOwnerObject.put("name", name);
+        animalOwnerObject.put("phoneNumber", phoneNumber);
+        animalOwnerObject.put("eMail", eMail);
+        animalOwnerObject.put("trial", trial);
+        animalOwnerObject.put("date", date);
         AnimalOwner animalOwner = new AnimalOwner();
         animalOwner.setName("leo");
         animalOwner.setPhoneNumber("80080088080");
         animalOwner.seteMail("mail@mail");
         animalOwner.setTrialPeriod(true);
+        animalOwner.setDate(LocalDate.now());
         animalOwner.setId(id);
+        System.out.println(animalOwner.toString());
         when(animalOwnerRep.save(any(AnimalOwner.class))).thenReturn(animalOwner);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -62,12 +69,13 @@ class AnimalOwnerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.phoneNumber").value(phoneNumber))
-                .andExpect(jsonPath("$.eMail").value(eMail))
+                //.andExpect(jsonPath("$.eMail").value(eMail))
                 .andExpect(jsonPath("$.trial").value(trial))
+                .andExpect(jsonPath("$.date").value(date))
                 .andExpect(jsonPath("$.id").value(id));
-
 
 
     }

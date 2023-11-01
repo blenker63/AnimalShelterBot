@@ -45,10 +45,10 @@ class AnimalsControllerTest {
         String breed = "siam";
         long id = 1L;
         JSONObject animalObject = new JSONObject();
-        animalObject.put("cat", animalType);
-        animalObject.put("Tom", name);
-        animalObject.put(String.valueOf(3), age);
-        animalObject.put("siam", breed);
+        animalObject.put("animalType", animalType);
+        animalObject.put("name", name);
+        animalObject.put("age", age);
+        animalObject.put("breed", breed);
         Animal animal = new Animal();
         animal.setAnimalType("cat");
         animal.setName("Tom");

@@ -13,7 +13,7 @@ public class AddService {
     private final R_AnimalOwner animalOwnerRepository;
     private final R_PetReport petReportRepository;
     private final R_Shelter shelterRepository;
-   // private final R_User userRepository;
+    // private final R_User userRepository;
     private final R_Volunteer volunteerRepository;
 
     public AddService(R_Animal animalRepository,
@@ -34,35 +34,27 @@ public class AddService {
 //      }
 
     public void anSet(long s_id, long id) {
-        animalRepository.AnimalSet(s_id,id);
+        animalRepository.AnimalSet(s_id, id);
     }
 
 
-
-
     /**
-     *  Сохраняет животных в БД Animal
-     * @param animalType  тип животного кот/собака
-     * @param name  имя животного
-     * @param age  возраст животного
-     * @param breed  порода
+     * Сохраняет животных в БД Animal
+     *
+     * @param animal сущность животное кот/собака
+
      */
-    public Animal AnimalSave(String animalType, String name, int age, String breed){
-        Animal animal = new Animal(animalType, name, age, breed);
-       return animalRepository.save(animal);
+    public Animal AnimalSave(Animal animal) {
+        return animalRepository.save(animal);
     }
 
     /**
-     *  Сохраняет в БД AnimalOwner данные Владелеца животного
-     * @param name  имя
-     * @param phoneNumber номер телефона
-     * @param eMail  электронная почта
-     * @param trialPeriod  испытательный срок
+     * Сохраняет в БД AnimalOwner данные Владелеца животного
+     *
+     * @param animalOwner сущность владелец животного
      */
-    public AnimalOwner AnimalOwnerSave(String name, String phoneNumber,  String eMail, boolean trialPeriod){
-
-        AnimalOwner animalOwner = new AnimalOwner(name, phoneNumber, eMail, trialPeriod, LocalDate.now());
-       return animalOwnerRepository.save(animalOwner);
+    public AnimalOwner AnimalOwnerSave(AnimalOwner animalOwner) {
+        return animalOwnerRepository.save(animalOwner);
     }
 
 //    /**
@@ -90,14 +82,12 @@ public class AddService {
 //    }
 
     /**
-     *  Метод для сохранения данных о приюте
-     * @param shelterType  тип приюта для кошек/для собак
-     * @param shelterName  названия приюта
-     * @param address  адрес местонахождения приюта
+     * Метод для сохранения данных о приюте
+     *
+     * @param shelter сущность приют для кошек/для собак
      */
-    public Shelter ShelterSave(String shelterType, String shelterName, String address, String information){
-        Shelter shelter = new Shelter(shelterType, shelterName, address, information);
-       return shelterRepository.save(shelter);
+    public Shelter ShelterSave(Shelter shelter) {
+        return shelterRepository.save(shelter);
     }
 
 //    public User UserSave(String name, String phoneNumber, Long chatId, LocalDateTime localDateTime){
@@ -105,7 +95,7 @@ public class AddService {
 //        return userRepository.save(user);
 //    }
 
-    public Volunteer VolunteerSave(String name, String phoneNumber){
+    public Volunteer VolunteerSave(String name, String phoneNumber) {
         Volunteer volunteer = new Volunteer(name, phoneNumber);
         return volunteerRepository.save(volunteer);
     }
