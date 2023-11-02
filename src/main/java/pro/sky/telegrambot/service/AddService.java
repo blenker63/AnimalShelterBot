@@ -69,15 +69,15 @@ public class AddService {
 //        botUserRepository.save(botUser);
 //    }
 
-    /**
-     *  Сохранение отчета о домашних животных
-     * @param diet  диета
-     * @param feelings  состояние животного
-     * @param check  проверялось ли благоустройство животного
-     */
-//    public PetReport PetReportSave(String diet, String feelings, boolean check){
-//        LocalDateTime localDateTime = LocalDateTime.now();
-//        PetReport petReport = new PetReport(diet, feelings, check, localDateTime);
+//    /**
+//     *  Сохранение отчета о домашних животных
+//     * @param diet  диета
+//     * @param feelings  состояние животного
+//     * @param control  проверялось ли благоустройство животного
+//     */
+//    public PetReport PetReportSave(long id, String diet, String feelings, boolean control){
+//        LocalDate date = LocalDate.now();
+//        PetReport petReport = new PetReport(id, diet, feelings, control, date);
 //        return petReportRepository.save(petReport);
 //    }
 

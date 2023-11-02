@@ -28,7 +28,7 @@ public class PhotoController {
 
     @PostMapping(value = "/{animalId}/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadPhoto(@PathVariable long animalId,
-                                            @RequestParam MultipartFile photo) throws IOException {
+                                            MultipartFile photo) throws IOException {
         photoService.uploadPhoto(animalId, photo);
         return ResponseEntity.ok().build();
     }

@@ -11,7 +11,7 @@ import pro.sky.telegrambot.model.AnimalOwner;
 import pro.sky.telegrambot.service.AddService;
 
 /**
- * класс содержит эндпойнты для внесения информации в базу данных по взявшим животных из приюта
+ * клас содержит эндпойнты для внесения информации в базу данных по взявшим животных из приюта
  */
 @RestController
 @RequestMapping("/animal-owner")
