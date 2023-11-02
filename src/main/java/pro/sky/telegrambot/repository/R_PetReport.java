@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import pro.sky.telegrambot.model.PetReport;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 public interface R_PetReport extends JpaRepository<PetReport,Integer> {
 
@@ -19,7 +20,10 @@ public interface R_PetReport extends JpaRepository<PetReport,Integer> {
     @Query(value = "SELECT * FROM pet_report WHERE owner_id =:owner_id AND date = (select max(date) from pet_report where owner_id =:owner_id)", nativeQuery = true)
     PetReport checkingLastDateReports(long owner_id);
 
-//    public interface R_PetReport extends JpaRepository<PetReport, Long> {
-////    List<PetReport> findAll();
-//    }
+//    Collection<PetReport> findByDateBetween(LocalDateTime begin, LocalDateTime end);
+    Collection<PetReport> findByDate(LocalDate date);
+    Collection<PetReport> findById(long id);
+    Collection<PetReport> findByControl(boolean control);
+
+
 }
