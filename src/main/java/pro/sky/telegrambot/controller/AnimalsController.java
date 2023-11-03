@@ -37,7 +37,7 @@ public class AnimalsController {
                     )
             }
     )
-    @PostMapping()
+    @PostMapping
     public Animal AnimalSave(@RequestBody Animal animal) {
         return addService.AnimalSave(animal);
     }

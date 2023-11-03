@@ -35,8 +35,8 @@ public class InfoController {
                     )
             }
     )
-    @PostMapping()
-    public void ShelterSave(@RequestBody Shelter shelter) {
-        addService.ShelterSave(shelter);
+    @PostMapping
+    public Shelter ShelterSave(@RequestBody Shelter shelter) {
+        return addService.ShelterSave(shelter);
     }
 }

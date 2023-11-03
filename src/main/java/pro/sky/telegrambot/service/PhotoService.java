@@ -10,6 +10,7 @@ import pro.sky.telegrambot.model.Photo;
 import pro.sky.telegrambot.repository.R_Animal;
 import pro.sky.telegrambot.repository.R_Photo;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,6 +21,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Slf4j
 @Service
+@Transactional
 public class PhotoService {
 
     private final R_Photo rPhoto;
@@ -30,7 +32,7 @@ public class PhotoService {
         this.rAnimal = rAnimal;
     }
 
-    @Value("photos")
+    @Value("${path.to.avatars.folder}")
     private String photosDir;
 
     public void uploadPhoto(Long animalId, MultipartFile photoFile) throws IOException {

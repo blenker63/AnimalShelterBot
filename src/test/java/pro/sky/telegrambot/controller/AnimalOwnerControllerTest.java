@@ -43,20 +43,20 @@ class AnimalOwnerControllerTest {
     void animalOwnerSaveTest() throws Exception {
         String name = "leo";
         String phoneNumber = "80080088080";
-        String eMail = "mail@mail";
-        boolean trial = true;
+        String email = "mail@mail";
+        boolean trialPeriod = true;
         Long id = 1L;
         LocalDate date = LocalDate.now();
         JSONObject animalOwnerObject = new JSONObject();
         animalOwnerObject.put("name", name);
         animalOwnerObject.put("phoneNumber", phoneNumber);
-        animalOwnerObject.put("eMail", eMail);
-        animalOwnerObject.put("trial", trial);
+        animalOwnerObject.put("email", email);
+        animalOwnerObject.put("trialPeriod", trialPeriod);
         animalOwnerObject.put("date", date);
         AnimalOwner animalOwner = new AnimalOwner();
         animalOwner.setName("leo");
         animalOwner.setPhoneNumber("80080088080");
-        animalOwner.seteMail("mail@mail");
+        animalOwner.setEmail("mail@mail");
         animalOwner.setTrialPeriod(true);
         animalOwner.setDate(LocalDate.now());
         animalOwner.setId(id);
@@ -69,13 +69,13 @@ class AnimalOwnerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(print())
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.phoneNumber").value(phoneNumber))
-                //.andExpect(jsonPath("$.eMail").value(eMail))
-                .andExpect(jsonPath("$.trial").value(trial))
-                .andExpect(jsonPath("$.date").value(date))
-                .andExpect(jsonPath("$.id").value(id));
+                .andExpect(jsonPath("$.email").value(email))
+                .andExpect(jsonPath("$.trialPeriod").value(trialPeriod))
+                .andExpect(jsonPath("$.date").value(String.valueOf(date)))
+                .andExpect(jsonPath("$.id").value(id))
+                .andDo(print());
 
 
     }

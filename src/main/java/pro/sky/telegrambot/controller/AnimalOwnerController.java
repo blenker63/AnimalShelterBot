@@ -36,9 +36,9 @@ public class AnimalOwnerController {
                     )
             }
     )
-    @PostMapping()
-    public void AnimalOwnerSave(@RequestBody AnimalOwner animalOwner) {
-        addService.AnimalOwnerSave(animalOwner);
+    @PostMapping
+    public AnimalOwner AnimalOwnerSave(@RequestBody AnimalOwner animalOwner) {
+        return addService.AnimalOwnerSave(animalOwner);
 
     }
 }

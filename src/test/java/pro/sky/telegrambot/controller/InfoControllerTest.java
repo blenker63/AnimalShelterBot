@@ -44,24 +44,25 @@ class InfoControllerTest {
 
 
     @Test
-    void shelterSave() throws Exception {
-        String type = "catShelter";
-        String name = "shelter";
+    void shelterSaveTest() throws Exception {
+
+        String shelterType = "catShelter";
+        String shelterName = "shelter";
         String address = "Astana";
-        String info = "info";
+        String information = "information";
         long id = 1L;
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("catShelter", type);
-        jsonObject.put("shelter", name);
-        jsonObject.put("Astana", address);
-        jsonObject.put("info", info);
+        jsonObject.put("shelterType", shelterType);
+        jsonObject.put("shelterName", shelterName);
+        jsonObject.put("address", address);
+        jsonObject.put("information", information);
         Shelter shelter = new Shelter();
-        shelter.setShelterType(type);
-        shelter.setShelterName(name);
+        shelter.setShelterType(shelterType);
+        shelter.setShelterName(shelterName);
         shelter.setAddress(address);
-        shelter.setInformation(info);
-        when(rShelter.save(new Shelter("catShelter", "shelter", "Astana", "info")))
-                .thenReturn(shelter);
+        shelter.setInformation(information);
+        shelter.setId(id);
+        when(rShelter.save(any(Shelter.class))).thenReturn(shelter);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/shelter")
@@ -69,10 +70,11 @@ class InfoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.shelterType").value(type))
-                .andExpect(jsonPath("$.shelterName").value(name))
+                .andExpect(jsonPath("$.shelterType").value(shelterType))
+                .andExpect(jsonPath("$.shelterName").value(shelterName))
                 .andExpect(jsonPath("$.address").value(address))
-                .andExpect(jsonPath("$.information").value(info))
+                .andExpect(jsonPath("$.information").value(information))
+                .andExpect(jsonPath("$.id").value(id))
                 .andDo(print());
     }
 }

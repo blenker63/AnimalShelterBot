@@ -16,7 +16,7 @@ public class AnimalOwner {
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "e_mail")
-    private String eMail;
+    private String email;
     @Column(name = "trial_period")
     private boolean trialPeriod;
 //    @OneToOne(mappedBy = "animaOwner")
@@ -26,10 +26,10 @@ public class AnimalOwner {
     @Column(name = "date")
     private LocalDate date;
 
-    public AnimalOwner(String name, String phoneNumber, String eMail, boolean trialPeriod, LocalDate date) {
+    public AnimalOwner(String name, String phoneNumber, String email, boolean trialPeriod, LocalDate date) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.eMail = eMail;
+        this.email = email;
         this.trialPeriod = trialPeriod;
         this.date = date;
     }
@@ -62,12 +62,12 @@ public class AnimalOwner {
         this.phoneNumber = phoneNumber;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getEmail() {
+        return email;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isTrialPeriod() {
@@ -91,20 +91,23 @@ public class AnimalOwner {
         if (this == o) return true;
         if (!(o instanceof AnimalOwner)) return false;
         AnimalOwner that = (AnimalOwner) o;
-        return id == that.id;
+        return id == that.id && trialPeriod == that.trialPeriod && Objects.equals(name, that.name) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(email, that.email) && Objects.equals(date, that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, phoneNumber, email, trialPeriod, date);
     }
 
     @Override
     public String toString() {
-        return "AnimalOwner{" + ", name='" + name + '\'' +
+        return "AnimalOwner{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", e_mail='" + eMail + '\'' +
+                ", email='" + email + '\'' +
                 ", trialPeriod=" + trialPeriod +
+                ", date=" + date +
                 '}';
     }
 }
