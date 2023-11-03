@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.model;
 import javax.persistence.*;
+//import jakarta.persistence.*;
 
 
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class Animal {
     private int age;
     @Column(name = "breed")
     private String breed;
-    @Column(name = "pathToPhoto")
+    @Column(name = "path_To_Photo")
     private String pathToPhoto;
 
     @ManyToOne

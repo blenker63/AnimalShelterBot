@@ -6,14 +6,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.telegrambot.model.Shelter;
 import pro.sky.telegrambot.service.AddService;
 
 /**
  * класс содержит эндпойнты для внесения информации в базу данных
  */
+@RequestMapping("/shelter")
+@RestController
 public class InfoController {
     private final AddService addService;
 
@@ -34,8 +35,8 @@ public class InfoController {
                     )
             }
     )
-    @PostMapping("/shelter/{shelterType}/{shelterName}/{address}/{information}")
-    public void ShelterSave(@PathVariable String shelterType, @PathVariable String shelterName, @PathVariable String address, @PathVariable String information) {
-        addService.ShelterSave(shelterType, shelterName, address, information);
+    @PostMapping()
+    public void ShelterSave(@RequestBody Shelter shelter) {
+        addService.ShelterSave(shelter);
     }
 }

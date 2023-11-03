@@ -1,13 +1,15 @@
 package pro.sky.telegrambot.model;
 
+//import jakarta.persistence.*;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
 @Table(name = "animal_owner")
 public class AnimalOwner {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "name")
     private String name;
@@ -21,11 +23,15 @@ public class AnimalOwner {
 //    private PetReport petReport;
 
 
-    public AnimalOwner(String name, String phoneNumber, String eMail, boolean trialPeriod) {
+    @Column(name = "date")
+    private LocalDate date;
+
+    public AnimalOwner(String name, String phoneNumber, String eMail, boolean trialPeriod, LocalDate date) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
         this.trialPeriod = trialPeriod;
+        this.date = date;
     }
 
     public AnimalOwner() {
@@ -72,6 +78,14 @@ public class AnimalOwner {
         this.trialPeriod = trialPeriod;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,9 +101,7 @@ public class AnimalOwner {
 
     @Override
     public String toString() {
-        return "AnimalOwner{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+        return "AnimalOwner{" + ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", e_mail='" + eMail + '\'' +
                 ", trialPeriod=" + trialPeriod +
