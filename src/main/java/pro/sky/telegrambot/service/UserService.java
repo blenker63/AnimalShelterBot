@@ -79,6 +79,12 @@ public class UserService {
         return animalOwners;
     }
 
+    public List<AnimalOwner> findAllByTrialPeriodTrue(){
+        return animalOwnerRepository.findAllByTrialPeriodTrue();
+    }
+
+
+
     /**
      * поиск заходившего в бот пользователя
      * @param id пользователя

@@ -380,7 +380,7 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
     @Scheduled(cron = "* * 21 * * *")
     public void checkingReports() {
         LocalDate dateNow = LocalDate.now();
-        List<AnimalOwner> animalOwners = userService.allAnimalOwner();                                                          // список всех владельцев
+        List<AnimalOwner> animalOwners = userService.findAllByTrialPeriodTrue();                                                          // список всех владельцев
         for (AnimalOwner animalOwner : animalOwners) {
             if (userService.findPetReportByOwnerIdAndDate(animalOwner.getId(), dateNow) == null) {                               // если сегодня отчетов не было
                 try {                                                                                                           // напоминаем владельцу
