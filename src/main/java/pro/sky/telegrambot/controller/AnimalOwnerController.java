@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.telegrambot.model.AnimalOwner;
 import pro.sky.telegrambot.service.AddService;
+import pro.sky.telegrambot.service.UserService;
 
 /**
  * клас содержит эндпойнты для внесения информации в базу данных по взявшим животных из приюта
@@ -17,10 +18,12 @@ import pro.sky.telegrambot.service.AddService;
 @RequestMapping("/animal-owner")
 public class AnimalOwnerController {
     private final AddService addService;
+    private final UserService userService;
 
 
-    public AnimalOwnerController(AddService addService) {
+    public AnimalOwnerController(AddService addService, UserService userService) {
         this.addService = addService;
+        this.userService = userService;
     }
 
     @Operation(
@@ -40,5 +43,10 @@ public class AnimalOwnerController {
     public AnimalOwner AnimalOwnerSave(@RequestBody AnimalOwner animalOwner) {
         return addService.AnimalOwnerSave(animalOwner);
 
+    }
+
+    @GetMapping("/{owner_id}")
+    public String trialPeriodAnimalOwner(@PathVariable Long owner_id){
+        return userService.trialPeriodAnimalOwner(owner_id);
     }
 }

@@ -7,6 +7,7 @@ import pro.sky.telegrambot.repository.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -188,4 +189,11 @@ public class UserService {
         return photoReportRepository.recordDirPhoto(ownerId, dir);
      }
 
+     public String trialPeriodAnimalOwner(long ownerId) {
+         AnimalOwner owner = animalOwnerRepository.findAnimalOwnerById(ownerId);
+         LocalDate date = owner.getDate();
+         Period period = date.until(LocalDate.now());                                                                  // если нет проверяем как давно
+
+         return owner.toString() + " Месяц(ев)-" + period.getMonths() + ", Дней-" + period.getDays();
+     }
 }

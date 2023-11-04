@@ -106,8 +106,6 @@ public class AnimalOwner {
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
-                ", trialPeriod=" + trialPeriod +
-                ", date=" + date +
                 '}';
     }
 }
