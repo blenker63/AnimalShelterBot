@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import pro.sky.telegrambot.listener.TelegramBotUpdates;
 import pro.sky.telegrambot.model.AnimalOwner;
 import pro.sky.telegrambot.service.AddService;
 import pro.sky.telegrambot.service.UserService;
@@ -19,11 +20,13 @@ import pro.sky.telegrambot.service.UserService;
 public class AnimalOwnerController {
     private final AddService addService;
     private final UserService userService;
+    private final TelegramBotUpdates telegramBotUpdates;
 
 
-    public AnimalOwnerController(AddService addService, UserService userService) {
+    public AnimalOwnerController(AddService addService, UserService userService, TelegramBotUpdates telegramBotUpdates) {
         this.addService = addService;
         this.userService = userService;
+        this.telegramBotUpdates = telegramBotUpdates;
     }
 
     @Operation(
@@ -49,4 +52,15 @@ public class AnimalOwnerController {
     public String trialPeriodAnimalOwner(@PathVariable Long owner_id){
         return userService.trialPeriodAnimalOwner(owner_id);
     }
+
+    @GetMapping("/trial-period-off/{owner_id}")
+    public AnimalOwner trialPeriodOff(@PathVariable Long owner_id){
+        return telegramBotUpdates.trialPeriodOff(owner_id);
+    }
+
+    @GetMapping("/trial-period-not-finish/{owner_id}/{period}")
+    public AnimalOwner trialPeriodNotFinished(@PathVariable Long owner_id, @PathVariable int period){
+        return telegramBotUpdates.trialPeriodNotFinished(owner_id, period);
+    }
+
 }

@@ -97,8 +97,8 @@ public class FillingDataBaseController {
 //        addService.UserSave(name, phoneNumber, chatId, localDateTime);
 //    }
 
-    @PostMapping("/{s_id}/{id}")
-    public void AS(@PathVariable long s_id, @PathVariable long id) {
-        addService.anSet(s_id, id);
+    @PostMapping("/{shelter_id}/{animal_id}")
+    public void AnimalSetShelter(@PathVariable long shelter_id, @PathVariable long animal_id) {
+        addService.AnimalSetShelter(shelter_id, animal_id);
     }
 }

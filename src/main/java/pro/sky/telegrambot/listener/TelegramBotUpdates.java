@@ -84,7 +84,9 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                     } else {
                         execute(buttonService.setButtonStartMenu(id, "Привет " + userName + ", желаешь еще посмотреть питомцев " +
                                 " в нашем телеграмм чате КотоПес! "));
-                        execute(buttonService.sendReport(id, "Незабываем отправлять ежедневный отчет!"));
+                        if (userService.findAnimalOwnerById(id).isTrialPeriod()) {                                  // если у владельца еще не закончился испытательный срок
+                            execute(buttonService.sendReport(id, "Незабываем отправлять ежедневный отчет!"));
+                        }
                     }
                 } catch (TelegramApiException e) {
                     log.error("Сообщение не отправлено!");
@@ -413,6 +415,27 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
                 }
             }
         }
+    }
+
+    /**
+     * если испытательный срок закончился
+     * @param ownerId владельца питомца
+     * @return инфо владельца питомца
+     */
+    public AnimalOwner trialPeriodOff(long ownerId){
+        sendMessage(ownerId, "Дорогой усыновитель, мы поздравляем вас с успешны прохождением испытательного срока! (и т.д...)");
+       return userService.trialPeriodOff(ownerId);
+    }
+
+    /**
+     * если испытательный срок продлен, оповещаем без каких либо записей
+     * @param ownerId владельца питомца
+     * @param period оповещаем на сколько дней продляем
+     * @return инфо владельца питомца
+     */
+    public AnimalOwner trialPeriodNotFinished(long ownerId, int period){
+        sendMessage(ownerId, "Дорогой усыновитель, вам продлен испытательный срок на "+period+" дней!");
+        return userService.findAnimalOwnerById(ownerId);
     }
 
 

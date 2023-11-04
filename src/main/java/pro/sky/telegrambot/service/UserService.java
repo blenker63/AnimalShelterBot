@@ -189,11 +189,32 @@ public class UserService {
         return photoReportRepository.recordDirPhoto(ownerId, dir);
      }
 
+    /**
+     * выводим количество дней с момента усыновления питомца
+     * @param ownerId владельца питомца
+     * @return инфо владельца + период (месяцев, дней)
+     */
      public String trialPeriodAnimalOwner(long ownerId) {
          AnimalOwner owner = animalOwnerRepository.findAnimalOwnerById(ownerId);
          LocalDate date = owner.getDate();
-         Period period = date.until(LocalDate.now());                                                                  // если нет проверяем как давно
-
+         Period period = date.until(LocalDate.now());
          return owner.toString() + " Месяц(ев)-" + period.getMonths() + ", Дней-" + period.getDays();
      }
+
+    /**
+     * меняем переменную trial_period c true на false (период пройден)
+     * @param ownerId владельца питомца
+     * @return инфо владельца питомца
+     */
+    public AnimalOwner trialPeriodOff(long ownerId) {
+         try {
+             animalOwnerRepository.trialPeriodOff(ownerId);
+         }catch (Exception e){
+             log.info("Not return result");
+         }
+         finally {
+             return animalOwnerRepository.findAnimalOwnerById(ownerId);
+         }
+    }
+
 }

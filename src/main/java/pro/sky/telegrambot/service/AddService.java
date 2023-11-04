@@ -33,8 +33,8 @@ public class AddService {
 //        this.animalOwner = animalOwner;
 //      }
 
-    public void anSet(long s_id, long id) {
-        animalRepository.AnimalSet(s_id, id);
+    public void AnimalSetShelter(long shelter_id, long animal_id) {
+        animalRepository.AnimalSetShelter(shelter_id, animal_id);
     }
 
 

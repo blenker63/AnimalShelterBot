@@ -11,11 +11,11 @@ public interface R_Animal extends JpaRepository<Animal,Long> {
 
     /**
      * прикрепляем животного к приюту
-     * @param s_id приют
-     * @param id животного
+     * @param shelter_id приют
+     * @param animal_id животного
      */
-    @Query(value = "UPDATE public.animal SET shelter_id = :s_id WHERE id = :id", nativeQuery = true)
-    void AnimalSet(long s_id, long id);
+    @Query(value = "UPDATE public.animal SET shelter_id = :shelter_id WHERE animal_id = :animal_id", nativeQuery = true)
+    void AnimalSetShelter(long shelter_id, long animal_id);
 
     /**
      * поиск животного по типу
