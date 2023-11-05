@@ -41,7 +41,7 @@ public class UserController {
     )
     @GetMapping("/all")
     public Collection<User> getAllUser() {
-        return (Collection<User>) userService;
+        return userService.findAll();
     }
 
 }

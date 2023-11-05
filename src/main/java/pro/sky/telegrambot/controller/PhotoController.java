@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 @RestController
+@RequestMapping("/photo")
 public class PhotoController {
     private final PhotoService photoService;
 
@@ -27,8 +28,8 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/{animalId}/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> uploadPhoto(@PathVariable long animalId,
-                                            MultipartFile photo) throws IOException {
+    public ResponseEntity<String> uploadPhoto(@PathVariable long animalId,
+                                            @RequestParam MultipartFile photo) throws IOException {
         photoService.uploadPhoto(animalId, photo);
         return ResponseEntity.ok().build();
     }

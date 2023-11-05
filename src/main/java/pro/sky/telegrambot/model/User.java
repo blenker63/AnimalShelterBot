@@ -24,6 +24,13 @@ public class User {
         this.animalId = animalId;
     }
 
+//    public User(Long chatId, String name, LocalDateTime localDateTime, Long animalId) {
+//        this.chatId = chatId;
+//        this.name = name;
+//        this.localDateTime = localDateTime;
+//        this.animalId = animalId;
+//    }
+
     public User() {
     }
 

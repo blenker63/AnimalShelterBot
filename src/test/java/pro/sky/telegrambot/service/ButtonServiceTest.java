@@ -1,30 +1,21 @@
 package pro.sky.telegrambot.service;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.multipart.MultipartFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import pro.sky.telegrambot.model.Animal;
-import pro.sky.telegrambot.model.AnimalOwner;
 import pro.sky.telegrambot.model.Photo;
-import pro.sky.telegrambot.repository.*;
+import pro.sky.telegrambot.repository.R_Animal;
+import pro.sky.telegrambot.repository.R_Photo;
+import pro.sky.telegrambot.repository.R_Shelter;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static java.lang.System.out;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +36,7 @@ class ButtonServiceTest {
 
     @Test
     void setButtonStartMenuTest() {
-        Long chatId = 152152L;
+        long chatId = 152152L;
         String text = "test";
         SendMessage test = service.setButtonStartMenu(chatId, text);
         assertThat(test).isNotNull().isInstanceOf(SendMessage.class);
@@ -54,7 +45,7 @@ class ButtonServiceTest {
 
     @Test
     void setButtonDogShelterInfoTest() {
-        Long chatId = 152152L;
+        long chatId = 152152L;
         String text = "test";
         SendMessage test = service.setButtonDogShelterInfo(chatId, text);
         SendMessage expected = new SendMessage();
@@ -67,7 +58,7 @@ class ButtonServiceTest {
 
     @Test
     void setButtonCatShelterInfoTest() {
-        Long chatId = 152152L;
+        long chatId = 152152L;
         String text = "test";
         SendMessage test = service.setButtonCatShelterInfo(chatId, text);
         SendMessage expected = new SendMessage();
@@ -80,7 +71,7 @@ class ButtonServiceTest {
 
     @Test
     void setButtonLooKAnimalTest() {
-        Long chatId = 152152L;
+        long chatId = 152152L;
         String text = "test";
         String animalId = "testanimal";
         SendMessage test = service.setButtonLooKAnimal(chatId, animalId, text);
@@ -94,7 +85,7 @@ class ButtonServiceTest {
 
     @Test
     void choiceAnimalTest() {
-        Long chatId = 152152L;
+        long chatId = 152152L;
         String text = "test";
         String animalId = "testanimal";
         SendMessage test = service.choiceAnimal(chatId, animalId, text);
@@ -139,12 +130,62 @@ class ButtonServiceTest {
 
     }
 
-//    @Test
-//    void findPhotoTest() {
-//
-//        byte[] data = new byte[]{1, 2, 3};
-//        Photo photo = new Photo("filepath", 1024L, "bng", data);
-//        when(rPhoto.findPhotoByAnimalId(1L)).thenReturn(photo);
-//        verify(rPhoto, times(1)).findPhotoByAnimalId(1L);
-//    }
+    @Test
+    void findPhotoTest() {
+
+        byte[] data = new byte[]{1, 2, 3};
+        Photo photo = new Photo("filepath", 1024L, "bng", data);
+        when(rPhoto.findPhotoByAnimalId(1L)).thenReturn(photo);
+        assertThat(service.findPhoto(1L)).isEqualTo(photo);
+        verify(rPhoto, times(1)).findPhotoByAnimalId(1L);
+    }
+
+    @Test
+    void informationForAdoptingAnAnimalTest() {
+        long chatId = 1L;
+        String animalType = "cat";
+        String text = "good";
+        SendMessage test = service.informationForAdoptingAnAnimal(chatId, animalType, text);
+        assertThat(test).isNotNull().isInstanceOf(SendMessage.class);
+        SendMessage expected = new SendMessage();
+        expected.setChatId(chatId);
+        expected.setText(text);
+        assertThat(test.getChatId()).isEqualTo(expected.getChatId());
+        assertThat(test.getText()).isEqualTo(expected.getText());
+    }
+
+    @Test
+    void sendReportTest() {
+        long chatId = 1L;
+        String text = "good";
+        SendMessage test = service.sendReport(chatId, text);
+        assertThat(test).isNotNull().isInstanceOf(SendMessage.class);
+        SendMessage expected = new SendMessage();
+        expected.setChatId(chatId);
+        expected.setText(text);
+        assertThat(test.getChatId()).isEqualTo(expected.getChatId());
+        assertThat(test.getText()).isEqualTo(expected.getText());
+    }
+
+    @Test
+    void findAnimalTypeByIdTest() {
+        Animal animal = new Animal("кот", "will", 3, "maincoon");
+        when(rAnimalMock.findAnimalTypeById(1L)).thenReturn(animal.getAnimalType());
+        assertThat(service.findAnimalTypeById(1L)).isEqualTo("кот");
+        verify(rAnimalMock, times(1)).findAnimalTypeById(1L);
+    }
+
+
+    @Test
+    void setCatMenu() {
+        long chatId = 1L;
+        String text = "good";
+        SendMessage test = service.setCatMenu(chatId, text);
+        assertThat(test).isNotNull().isInstanceOf(SendMessage.class);
+        SendMessage expected = new SendMessage();
+        expected.setChatId(chatId);
+        expected.setText(text);
+        assertThat(test.getChatId()).isEqualTo(expected.getChatId());
+        assertThat(test.getText()).isEqualTo(expected.getText());
+    }
 }
