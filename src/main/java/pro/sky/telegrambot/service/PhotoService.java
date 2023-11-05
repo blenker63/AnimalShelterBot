@@ -57,6 +57,7 @@ public class PhotoService {
         photo.setMediaType(photoFile.getContentType());
         photo.setData(photoFile.getBytes());
         rPhoto.save(photo);
+
     }
     private String getExtensions(String fileName) {
 

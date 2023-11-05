@@ -139,12 +139,33 @@ class ButtonServiceTest {
 
     }
 
-//    @Test
-//    void findPhotoTest() {
-//
-//        byte[] data = new byte[]{1, 2, 3};
-//        Photo photo = new Photo("filepath", 1024L, "bng", data);
-//        when(rPhoto.findPhotoByAnimalId(1L)).thenReturn(photo);
-//        verify(rPhoto, times(1)).findPhotoByAnimalId(1L);
-//    }
+    @Test
+    void findPhotoTest() {
+
+        byte[] data = new byte[]{1, 2, 3};
+        Photo photo = new Photo("filepath", 1024L, "bng", data);
+        when(rPhoto.findPhotoByAnimalId(1L)).thenReturn(photo);
+        assertThat(service.findPhoto(1L)).isEqualTo(photo);
+        verify(rPhoto, times(1)).findPhotoByAnimalId(1L);
+    }
+
+    @Test
+    void informationForAdoptingAnAnimal() {
+    }
+
+    @Test
+    void sendReport() {
+    }
+
+    @Test
+    void findAnimalTypeById() {
+    }
+
+    @Test
+    void findPhoto() {
+    }
+
+    @Test
+    void setCatMenu() {
+    }
 }

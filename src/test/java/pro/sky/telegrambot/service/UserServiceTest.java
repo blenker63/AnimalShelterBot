@@ -39,6 +39,8 @@ class UserServiceTest {
 
     private BotUser botUser = new BotUser(1L, "leo", LocalDateTime.now());
     private User user = new User(1L, botUser.getName(), LocalDateTime.now(), 10L);
+    private User user2 = new User(2L, botUser.getName(), LocalDateTime.now(), 11L);
+    private List<User> userList = List.of(user, user2);
     private AnimalOwner animalOwner = new AnimalOwner("leo", "88007008090", "mail@mail",
             true, LocalDate.now());
     private PetReport petReport = new PetReport(1L, "diet", "good", true, LocalDate.now());
@@ -137,7 +139,20 @@ class UserServiceTest {
                 true, LocalDate.now()));
         animalOwners.add(new AnimalOwner("neo", "88007008050", "mail@gmail",
                 true, LocalDate.now()));
-
         when(animalOwnerMock.findAll()).thenReturn(animalOwners);
+        assertThat(service.allAnimalOwner().size()).isEqualTo(2);
+    }
+
+    @Test
+    void recordDirPhoto() {
+        when(photoReportMock.recordDirPhoto(1L, "/path")).thenReturn(photoReport);
+        assertThat(service.recordDirPhoto(1L,"/path")).isEqualTo(photoReport);
+    }
+
+    @Test
+    void findAll() {
+        when(userMock.findAll()).thenReturn(userList);
+        assertThat(service.findAll().size()).isEqualTo(2);
+        verify(userMock, times(1)).findAll();
     }
 }
