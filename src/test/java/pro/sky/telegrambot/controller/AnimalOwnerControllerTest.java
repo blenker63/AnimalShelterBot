@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.controller;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pro.sky.telegrambot.listener.TelegramBotUpdates;
 import pro.sky.telegrambot.model.AnimalOwner;
 import pro.sky.telegrambot.repository.*;
 import pro.sky.telegrambot.service.AddService;
+import pro.sky.telegrambot.service.UserService;
 
 
 import java.time.LocalDate;
@@ -35,6 +38,10 @@ class AnimalOwnerControllerTest {
     private R_Shelter rShelter;
     @MockBean
     private R_Volunteer rVolunteer;
+    @MockBean
+    UserService userService;
+    @MockBean
+    TelegramBotUpdates botUpdates;
 
     @SpyBean
     private AddService service;
@@ -60,7 +67,6 @@ class AnimalOwnerControllerTest {
         animalOwner.setTrialPeriod(true);
         animalOwner.setDate(LocalDate.now());
         animalOwner.setId(id);
-        System.out.println(animalOwner.toString());
         when(animalOwnerRep.save(any(AnimalOwner.class))).thenReturn(animalOwner);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -78,5 +84,46 @@ class AnimalOwnerControllerTest {
                 .andDo(print());
 
 
+    }
+
+    @Test
+    void trialPeriodAnimalOwnerTest() throws Exception {
+        AnimalOwner animalOwner = new AnimalOwner("leo", "80080088080", "mail@mail",
+                true, LocalDate.now());
+        when(animalOwnerRep.findAnimalOwnerById(1L)).thenReturn(animalOwner);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/animal-owner/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void trialPeriodOff() throws Exception {
+        AnimalOwner animalOwner = new AnimalOwner("leo", "80080088080", "mail@mail",
+                true, LocalDate.now());
+        String name = "leo";
+        String phoneNumber = "80080088080";
+        String email = "mail@mail";
+        boolean trialPeriod = true;
+        Long id = 1L;
+        LocalDate date = LocalDate.now();
+        JSONObject animalOwnerObject = new JSONObject();
+        animalOwnerObject.put("name", name);
+        animalOwnerObject.put("phoneNumber", phoneNumber);
+        animalOwnerObject.put("email", email);
+        animalOwnerObject.put("trialPeriod", trialPeriod);
+        animalOwnerObject.put("date", date);
+        when(botUpdates.trialPeriodOff(id)).thenReturn(animalOwner);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/animal-owner/trial-period-off/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
+
+    @Test
+    void trialPeriodNotFinished() {
     }
 }
