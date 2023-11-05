@@ -3,6 +3,7 @@ package pro.sky.telegrambot.service;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.sql.ast.tree.expression.Collation;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.*;
 import pro.sky.telegrambot.repository.*;
 
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 
 @Component
 @Slf4j
+@Service
 public class UserService {
 
     private final R_BotUser botUserRepository;

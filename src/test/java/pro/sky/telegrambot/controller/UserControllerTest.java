@@ -18,10 +18,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(InfoController.class)
+@WebMvcTest(UserController.class)
 class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -49,14 +50,17 @@ class UserControllerTest {
     @Test
     void getAllUserTest() throws Exception {
         User user1 = new User(1L, "leo", LocalDateTime.now(), 1L);
+        user1.setTelephone("808080");
         User user2 = new User(2L, "alex", LocalDateTime.now(), 2L);
+        user2.setTelephone("909090");
         List<User> userList = List.of(user1, user2);
-        when(service.findAll()).thenReturn(userList);
+        when(rUser.findAll()).thenReturn(userList);
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/users/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(userList.size()));
+                .andExpect(jsonPath("$.size()").value(userList.size()))
+                .andDo(print());
 
 
     }
