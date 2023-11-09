@@ -124,6 +124,17 @@ class AnimalOwnerControllerTest {
     }
 
     @Test
-    void trialPeriodNotFinished() {
+    void trialPeriodNotFinished() throws Exception {
+        AnimalOwner animalOwner = new AnimalOwner("leo", "80080088080", "mail@mail",
+                true, LocalDate.now());
+        animalOwner.setId(1L);
+        when(botUpdates.trialPeriodNotFinished(1L, 10)).thenReturn(animalOwner);
+        when(userService.findAnimalOwnerById(1L)).thenReturn(animalOwner);
+        when(animalOwnerRep.findAnimalOwnerById(1L)).thenReturn(animalOwner);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/animal-owner/trial-period-not-finish/1/10")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }

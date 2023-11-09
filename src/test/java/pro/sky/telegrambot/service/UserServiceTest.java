@@ -10,6 +10,7 @@ import pro.sky.telegrambot.repository.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -121,19 +122,19 @@ class UserServiceTest {
     }
 
     @Test
-    void findPhotoReportByOwnerIdAndDate() {
+    void findPhotoReportByOwnerIdAndDateTest() {
         when(photoReportMock.findPhotoReportByOwnerIdAndDate(1L, LocalDate.now())).thenReturn(photoReport);
         assertThat(service.findPhotoReportByOwnerIdAndDate(1L, LocalDate.now())).isEqualTo(photoReport);
     }
 
     @Test
-    void checkingLastDateReports() {
+    void checkingLastDateReportsTest() {
         when(petReportMock.checkingLastDateReports(1l)).thenReturn(petReport);
         assertThat(service.checkingLastDateReports(1L)).isEqualTo(petReport);
     }
 
     @Test
-    void allAnimalOwner() {
+    void allAnimalOwnerTest() {
         List<AnimalOwner> animalOwners = new ArrayList<>();
         animalOwners.add(new AnimalOwner("leo", "88007008090", "mail@mail",
                 true, LocalDate.now()));
@@ -144,15 +145,38 @@ class UserServiceTest {
     }
 
     @Test
-    void recordDirPhoto() {
+    void recordDirPhotoTest() {
         when(photoReportMock.recordDirPhoto(1L, "/path")).thenReturn(photoReport);
         assertThat(service.recordDirPhoto(1L,"/path")).isEqualTo(photoReport);
     }
 
     @Test
-    void findAll() {
+    void findAllTest() {
         when(userMock.findAll()).thenReturn(userList);
         assertThat(service.findAll().size()).isEqualTo(2);
         verify(userMock, times(1)).findAll();
+    }
+
+    @Test
+    void trialPeriodAnimalOwnerTest() {
+        var animalOwner =  new AnimalOwner("leo", "88007008090", "mail@mail",
+                true, LocalDate.now());
+        when(animalOwnerMock.findAnimalOwnerById(1L)).thenReturn(animalOwner);
+        LocalDate date = animalOwner.getDate();
+        Period period = date.until(LocalDate.now());
+        assertThat(service.trialPeriodAnimalOwner(1L)).isEqualTo(
+                animalOwner.toString() + " Месяц(ев)-" + period.getMonths() + ", Дней-" + period.getDays());
+        verify(animalOwnerMock, times(1)).findAnimalOwnerById(1L);
+
+    }
+
+    @Test
+    void trialPeriodOffTest() {
+        var animalOwner =  new AnimalOwner("leo", "88007008090", "mail@mail",
+                true, LocalDate.now());
+        when(animalOwnerMock.findAnimalOwnerById(1L)).thenReturn(animalOwner);
+        assertThat(service.trialPeriodOff(1L).getName()).isEqualTo("leo");
+        verify(animalOwnerMock, times(1)).trialPeriodOff(1L);
+
     }
 }
