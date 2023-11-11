@@ -419,22 +419,24 @@ public class TelegramBotUpdates extends TelegramLongPollingBot {
 
     /**
      * если испытательный срок закончился
+     *
      * @param ownerId владельца питомца
      * @return инфо владельца питомца
      */
-    public AnimalOwner trialPeriodOff(long ownerId){
+    public AnimalOwner trialPeriodOff(long ownerId) {
         sendMessage(ownerId, "Дорогой усыновитель, мы поздравляем вас с успешны прохождением испытательного срока! (и т.д...)");
-       return userService.trialPeriodOff(ownerId);
+        return userService.trialPeriodOff(ownerId);
     }
 
     /**
      * если испытательный срок продлен, оповещаем без каких либо записей
+     *
      * @param ownerId владельца питомца
-     * @param period оповещаем на сколько дней продляем
+     * @param period  оповещаем на сколько дней продляем
      * @return инфо владельца питомца
      */
-    public AnimalOwner trialPeriodNotFinished(long ownerId, int period){
-        sendMessage(ownerId, "Дорогой усыновитель, вам продлен испытательный срок на "+period+" дней!");
+    public AnimalOwner trialPeriodNotFinished(long ownerId, int period) {
+        sendMessage(ownerId, "Дорогой усыновитель, вам продлен испытательный срок на " + period + " дней!");
         return userService.findAnimalOwnerById(ownerId);
     }
 

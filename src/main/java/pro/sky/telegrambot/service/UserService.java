@@ -213,7 +213,7 @@ public class UserService {
     }
     /**
      * перезапись фото в БД
-     * @return список все х пользователей
+     * @return список всех пользователей
      * */
     public Collection<User> findAll() {
         return Collections.unmodifiableCollection(userRepository.findAll());
