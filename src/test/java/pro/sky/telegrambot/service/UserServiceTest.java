@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
@@ -38,14 +38,14 @@ class UserServiceTest {
         service = new UserService(botUserMock, userMock, animalOwnerMock, petReportMock, photoReportMock);
     }
 
-    private BotUser botUser = new BotUser(1L, "leo", LocalDateTime.now());
-    private User user = new User(1L, botUser.getName(), LocalDateTime.now(), 10L);
-    private User user2 = new User(2L, botUser.getName(), LocalDateTime.now(), 11L);
-    private List<User> userList = List.of(user, user2);
-    private AnimalOwner animalOwner = new AnimalOwner("leo", "88007008090", "mail@mail",
+    private final BotUser botUser = new BotUser(1L, "leo", LocalDateTime.now());
+    private final User user = new User(1L, botUser.getName(), LocalDateTime.now(), 10L);
+    private final User user2 = new User(2L, botUser.getName(), LocalDateTime.now(), 11L);
+    private final List<User> userList = List.of(user, user2);
+    private final AnimalOwner animalOwner = new AnimalOwner("leo", "88007008090", "mail@mail",
             true, LocalDate.now());
-    private PetReport petReport = new PetReport(1L, "diet", "good", true, LocalDate.now());
-    private PhotoReport photoReport = new PhotoReport(1L, LocalDate.now(), "/path");
+    private final PetReport petReport = new PetReport(1L, "diet", "good", true, LocalDate.now());
+    private final PhotoReport photoReport = new PhotoReport(1L, LocalDate.now(), "/path");
 
     @Test
     void saveBotUserTest() {
@@ -63,7 +63,7 @@ class UserServiceTest {
     @Test
     void savePhoneUserTest() {
         String phone = "+79201234565";
-        Long chatId = 10L;
+        long chatId = 10L;
         service.savePhoneUser(chatId, phone);
         verify(userMock, times(1)).savePhone(chatId, phone);
     }
@@ -129,7 +129,7 @@ class UserServiceTest {
 
     @Test
     void checkingLastDateReportsTest() {
-        when(petReportMock.checkingLastDateReports(1l)).thenReturn(petReport);
+        when(petReportMock.checkingLastDateReports(1L)).thenReturn(petReport);
         assertThat(service.checkingLastDateReports(1L)).isEqualTo(petReport);
     }
 

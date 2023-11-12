@@ -51,12 +51,6 @@ class AddServiceTest {
     }
 
 
-//    @Test
-//    void petReportSaveTest() {
-//        var petReport = new PetReport("diet", "feelings", true, LocalDateTime.now());
-//        when(rPetReportMock.save(petReport)).thenReturn(petReport);
-//        assertEquals(petReport, service.PetReportSave("diet", "feelings", true));
-//    }
 
     @Test
     void shelterSaveTest() {

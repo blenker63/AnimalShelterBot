@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -54,7 +55,7 @@ class TelegramBotUpdatesTest {
         var chat = mock(Chat.class);
         var sendMessage = mock(SendMessage.class);
         when(upd.getCallbackQuery()).thenReturn(callback);
-        when(callback.getData()).thenReturn(Commands.CAT_SHELTER.getCommand());
+        when(callback.getData()).thenReturn(Commands.START.getCommand());
         when(callback.getMessage()).thenReturn(message);
         when(upd.getMessage()).thenReturn(message);
         when(message.getChatId()).thenReturn(1L);
@@ -63,7 +64,7 @@ class TelegramBotUpdatesTest {
         when(message.hasText()).thenReturn(true);
         when(message.getChat()).thenReturn(chat);
         when(chat.getFirstName()).thenReturn("test");
-        when(buttonService.setButtonStartMenu(anyLong(), anyString())).thenReturn(new SendMessage("1", "test"));
+        when(buttonService.setButtonStartMenu(anyLong(), anyString())).thenReturn(sendMessage);
         bot.onUpdateReceived(upd);
         verify(bot).execute(captor.capture());
 
