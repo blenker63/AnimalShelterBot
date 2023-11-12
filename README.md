@@ -30,8 +30,10 @@ REST
 GIT
 Swagger
 Liquibase
+
 База данных
 PostgreSQL
+
 Тестирование
 JUnit
 Mockito
